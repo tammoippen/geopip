@@ -1,0 +1,2 @@
+include geopip/globe.geo.json
+include README.md

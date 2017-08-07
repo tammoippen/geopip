@@ -1,0 +1,42 @@
+language: python
+sudo: false
+
+python:
+  - "2.7"
+  - "3.5"
+  - "3.6"
+  - "nightly"
+
+env:
+  - WITH_SHAPELY=1
+  - WITH_SHAPELY=0
+
+addons:
+  apt:
+    packages:
+      - libopenblas-base
+      - libopenblas-dev
+      - libgeos++-dev
+      - libgeos-dev
+      - libgeos-c1
+      - libgeos-3.3.8
+
+before_install:
+  - if [ ${WITH_SHAPELY} ]; then pip install shapely[vectorized]>=1.6b4 ; fi
+
+# command to install dependencies
+install:
+  - pip install .
+  - pip install -r tests/requirements.txt"
+
+# command to run tests
+script: "pytest -v --flake8 --cov-report=term-missing --cov=geopip"
+
+deploy:
+  provider: pypi
+  user: tammoippen
+  password:
+    secure: "Your encrypted password"
+  on:
+    branch: master
+    tags: true

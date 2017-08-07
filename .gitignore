@@ -1,0 +1,6 @@
+venv/
+data/
+*.egg-info
+.DS_Store
+.cache/
+.coverage
