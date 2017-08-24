@@ -38,7 +38,7 @@ Out[2]:
  'UN': 56}
 ```
 
-**NOTE**: Since the polygons for each country are quite simple, reverse geocoding at the borders of two countrys is **not** exact. Use polygons with higher resolution for these use cases (see [Data](#Data)).
+**NOTE**: Since the polygons for each country are quite simple, reverse geocoding at the borders of two countrys is **not** exact. Use polygons with higher resolution for these use cases (see [Data](#data)).
 
 The `shapely` package will be used, if installed. Otherwise, a pure python implementation will be used (on the basis of [winding numbers](https://en.wikipedia.org/wiki/Winding_number)). See [here](https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation), [here](http://geomalgorithms.com/a03-_inclusion.html) and [here](http://www.dgp.toronto.edu/~mac/e-stuff/point_in_polygon.py) for more informations and example implementations. Espacially for larger features, the shapely implementation might give performance improvements (default shape data and 2.6 GHz Intel Core i7, python3.6.2):
 
