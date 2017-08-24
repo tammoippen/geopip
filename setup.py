@@ -3,6 +3,12 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from setuptools import find_packages, setup
 
+try:
+    import pypandoc
+    long_description = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError):
+    long_description = open('README.md').read()
+
 
 setup(
     name='geopip',
@@ -16,6 +22,7 @@ setup(
     author='Tammo Ippen',
     author_email='tammo.ippen@posteo.de',
     description='Reverse geocode a lng/lat coordinate within a geojson FeatureCollection.',
+    long_description=long_description,
     url='https://github.com/tammoippen/geopip',
     download_url='https://github.com/tammoippen/geopip/archive/v0.2.tar.gz',
     keywords=['geojson', 'point in polygon', 'reverse geocode', 'countries'],

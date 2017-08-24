@@ -15,6 +15,7 @@ addons:
   apt:
     packages:
       - libgeos-dev
+      - pandoc
 
 install:
   - if [ $WITH_SHAPELY -eq 1 ]; then
@@ -26,6 +27,9 @@ install:
   - python -c 'import geopip; print(geopip.p_in_polygon.__doc__)'
 
 script: PYTHONPATH=$PWD pytest -v --flake8 --cov-report=term-missing --cov=geopip
+
+before_deploy:
+  - pip install pypandoc
 
 deploy:
   provider: pypi
