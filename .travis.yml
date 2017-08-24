@@ -1,13 +1,16 @@
 language: python
 sudo: false
+
 python:
-- '2.7'
-- '3.5'
-- '3.6'
-- nightly
+  - '2.7'
+  - '3.5'
+  - '3.6'
+  - nightly
+
 env:
-- WITH_SHAPELY=1
-- WITH_SHAPELY=0
+  - WITH_SHAPELY=1
+  - WITH_SHAPELY=0
+
 addons:
   apt:
     packages:
@@ -16,13 +19,18 @@ addons:
     - libgeos++-dev
     - libgeos-dev
     - libgeos-c1
-    - libgeos-3.3.8
-before_install:
-- if [ ${WITH_SHAPELY} ]; then pip install shapely[vectorized]>=1.6b4 ; fi
+
 install:
-- pip install .
-- pip install -r tests/requirements.txt"
-script: pytest -v --flake8 --cov-report=term-missing --cov=geopip
+  - echo $WITH_SHAPELY
+  - if [ $WITH_SHAPELY -eq 1 ]; then
+      pip install numpy "shapely[vectorized]>=1.6b4" ;
+    fi
+  - pip install .
+  - pip install -r tests/requirements.txt
+  - pip list
+
+script: PYTHONPATH=$PWD pytest -v --flake8 --cov-report=term-missing --cov=geopip
+
 deploy:
   provider: pypi
   user: tammoippen
