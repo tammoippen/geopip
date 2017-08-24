@@ -1,5 +1,6 @@
-[![Build Status](https://travis-ci.org/tammoippen/geopip.svg?branch=master)](https://travis-ci.org/tammoippen/geopip)
 # GEOPIP: Geojson Point in Polygon (PIP)
+
+[![Build Status](https://travis-ci.org/tammoippen/geopip.svg?branch=master)](https://travis-ci.org/tammoippen/geopip)
 
 Reverse geocode a lng/lat coordinate within a geojson `FeatureCollection` and return information about the containing country (polygon).
 
@@ -89,6 +90,7 @@ In [3]: %timeit geopip.search(4.910248, 50.850981)
 # Data
 
 Other interesting shape data can be found at:
+
 - http://www.naturalearthdata.com/downloads/ : Different thematic shape files at 10m, 50m and 110m resolution.
 - http://www.gadm.org/version2 : Administrative area 0 or 1 contain contries or states, respectively. Attention to the license!
 - https://www2.census.gov/geo/tiger/: Various shape/gdb files and information for USA.
