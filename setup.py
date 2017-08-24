@@ -10,9 +10,11 @@ except(IOError, ImportError):
     long_description = open('README.md').read()
 
 
+version = '0.2'
+
 setup(
     name='geopip',
-    version='0.2',
+    version=version,
     packages=find_packages(),
     install_requires=[
         'geohash2',
@@ -24,7 +26,7 @@ setup(
     description='Reverse geocode a lng/lat coordinate within a geojson FeatureCollection.',
     long_description=long_description,
     url='https://github.com/tammoippen/geopip',
-    download_url='https://github.com/tammoippen/geopip/archive/v0.2.tar.gz',
+    download_url='https://github.com/tammoippen/geopip/archive/v{}.tar.gz'.format(version),
     keywords=['geojson', 'point in polygon', 'reverse geocode', 'countries'],
     include_package_data=True,
 )
