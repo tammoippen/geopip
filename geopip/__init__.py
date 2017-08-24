@@ -85,7 +85,7 @@ def search_all(lng, lat):
         raise ValueError('Latitude must be between -90 and 90.')
 
     key = encode(latitude=lat, longitude=lng)
-    for sub_key in [key] + [key[:-i] for i in range(1, len(key)+1)]:
+    for sub_key in [key] + [key[:-i] for i in range(1, len(key) + 1)]:
         # look withing geohash rectangles of increasing resolution
         for shp in shapes().get(sub_key, []):
             # look through all shapes within one resolution
