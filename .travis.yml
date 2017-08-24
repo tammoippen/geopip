@@ -35,3 +35,5 @@ deploy:
   on:
     branch: master
     tags: true
+    python: "3.6"
+    condition: $WITH_SHAPELY -eq 1
