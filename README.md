@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/tammoippen/geopip.svg?branch=master)](https://travis-ci.org/tammoippen/geopip)
 # GEOPIP: Geojson Point in Polygon (PIP)
 
 Reverse geocode a lng/lat coordinate within a geojson `FeatureCollection` and return information about the containing country (polygon).
