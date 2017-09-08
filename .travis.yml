@@ -27,7 +27,7 @@ install:
   - pip install .
   - pip install -r tests/requirements.txt
   - pip list
-  - python -c 'import geopip; print(geopip.p_in_polygon.__doc__)'
+  - python -c 'import geopip; print(geopip._geopip.p_in_polygon.__doc__)'
 
 script: PYTHONPATH=$PWD pytest -v --flake8 --cov-report=term-missing --cov=geopip
 

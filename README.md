@@ -172,7 +172,7 @@ Type:      function
 ```python
 In [1]: import geopip
 In [2]: geopip.GeoPIP?
-Init signature: geopip.GeoPIP(*, filename=None, geojson_dict=None)
+Init signature: geopip.GeoPIP(self, *args, **kwargs)
 Docstring:
 GeoPIP: Geojson Point in Polygon (PIP)
 
@@ -188,7 +188,9 @@ variable is not set, a default geojson will be loaded (packaged):
 During init, the geojson will be prepared (see pure / shapely implementation)
 and indexed with geohashes.
 
-Parameters:
+Provide the parameters as kwargs!
+
+Allowed parameters:
     filename: str                 Path to a geojson file.
     geojson_dict: Dict[str, Any]  Geojson dictionary. `FeatureCollection` required!
 File:           ~/repositories/geopip/geopip/_geopip.py

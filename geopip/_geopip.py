@@ -44,7 +44,7 @@ class GeoPIP(object):
     return information about the containing polygon.
     '''
 
-    def __init__(self, *, filename=None, geojson_dict=None):
+    def __init__(self, *args, **kwargs):
         '''Provide the geojson either as a file (`filename`) or as a geojson
         dict (`geojson_dict`). If none of both is given, it tries to load the
         file pointed to in the environment variable `REVERSE_GEOCODE_DATA`. If the
@@ -54,12 +54,19 @@ class GeoPIP(object):
         During init, the geojson will be prepared (see pure / shapely implementation)
         and indexed with geohashes.
 
-        Parameters:
+        Provide the parameters as kwargs!
+
+        Allowed parameters:
             filename: str                 Path to a geojson file.
             geojson_dict: Dict[str, Any]  Geojson dictionary. `FeatureCollection` required!
         '''
+        filename = kwargs.pop('filename')
+        geojson_dict = kwargs.pop('geojson_dict')
         if filename and geojson_dict:
             raise ValueError('Only one of `filename` or `geojson_dict` is allowed!')
+
+        if len(args) != 0 or len(kwargs) != 0:
+            raise ValueError('Provide the arguments as kwargs. Only `filename` and `geojson_dict` are allowed.')
 
         self._source = None
         data = None
