@@ -6,7 +6,7 @@ Reverse geocode a lng/lat coordinate within a geojson `FeatureCollection` and re
 
 Basically, you can use any [geojson](https://tools.ietf.org/html/rfc7946) file (top level is a `FeatureCollection`) for reverse coding - set the environment variable `REVERSE_GEOCODE_DATA` to the geojson file. Only `Polygon` and `MultiPolygon` features will be used! If a point is found to be in a feature, the `properties` of that feature will be returned.
 
-The default shape data (contained within the package) is from [tematicmapping](http://thematicmapping.org/downloads/world_borders.php) (the simple shapes). It contains polygons representing one country with the following meta-data (`properties`):
+The default shape data (contained within the package) is from [thematicmapping](http://thematicmapping.org/downloads/world_borders.php) (the simple shapes). It contains polygons representing one country with the following meta-data (`properties`):
 ```
 FIPS      String(2)         FIPS 10-4 Country Code
 ISO2      String(2)         ISO 3166-1 Alpha-2 Country Code
@@ -46,8 +46,8 @@ The `shapely` package will be used, if installed. Otherwise, a pure python imple
 *Pure*:
 ```python
 In [1]: import geopip
-In [2]: geopip.p_in_polygon?
-Signature: geopip.p_in_polygon(p, shp)
+In [2]: geopip._geopip.p_in_polygon?
+Signature: geopip._geopip.p_in_polygon(p, shp)
 Docstring:
 Test, whether point `p` is in shape `shp`.
 
@@ -68,8 +68,8 @@ In [3]: %timeit geopip.search(4.910248, 50.850981)
 *Shapely*:
 ```python
 In [1]: import geopip
-In [2]: geopip.p_in_polygon?
-Signature: geopip.p_in_polygon(p, shp)
+In [2]: geopip_geopip.p_in_polygon?
+Signature: geopip._geopip.p_in_polygon(p, shp)
 Docstring:
 Test, whether point `p` is in shape `shp`.
 
@@ -99,7 +99,7 @@ Other interesting shape data can be found at:
 
 **NOTE**: shapefiles / gdb databases have to be transformed into geojson. One way is to use [fiona](https://github.com/Toblerity/Fiona). Assuming the gdb files are in the directory `/data/gdb`:
 
-```sh
+```python
 fio insp /data/gdb
 # a python shell opens
 >>> import json
@@ -116,3 +116,82 @@ Then the `gdb` will be transformed into a geojson file `gdb.geo.json`.
 # Improvements:
 
 - Unittesting!
+
+# Documentation
+
+(*TODO* more)
+Basically, there are the two functions `geopip.search` and `geopip.search_all` that perform the search in the provided `FeatureCollection`. Then there is the class `geopip.GeoPIP` that accepts a `FeatureCollection` either as a file or a dictionary and provides the same search functionality:
+
+## `search`
+```python
+In [1]: import geopip
+In [2]: geopip.search?
+Signature: geopip.search(lng, lat)
+Docstring:
+Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
+
+Look within the features from the `instance().shapes` function for a polygon that
+contains the point (lng, lat). From the first found feature the `porperties`
+will be returned. `None`, if no feature containes the point.
+
+Parameters:
+    lng: float  Longitude (-180, 180) of point. (WGS84)
+    lat: float  Latitude (-90, 90) of point. (WGS84)
+
+Returns:
+    Dict[Any, Any]  `Properties` of found feature. `None` if nothing is found.
+File:      ~/repositories/geopip/geopip/__init__.py
+Type:      function
+```
+
+## `search_all`
+```python
+In [1]: import geopip
+In [2]: geopip.search_all?
+Signature: geopip.search_all(lng, lat)
+Docstring:
+Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
+
+Look within the features from the `instance().shapes` function for all polygon that
+contains the point (lng, lat). From all found feature the `porperties`
+will be returned (more or less sorted from smallest to largest feature).
+`None`, if no feature containes the point.
+
+Parameters:
+    lng: float  Longitude (-180, 180) of point. (WGS84)
+    lat: float  Latitude (-90, 90) of point. (WGS84)
+
+Returns:
+    Iterator[Dict[Any, Any]]  Iterator for `properties` of found features.
+File:      ~/repositories/geopip/geopip/__init__.py
+Type:      function
+```
+
+## `GeoPIP`
+```python
+In [1]: import geopip
+In [2]: geopip.GeoPIP?
+Init signature: geopip.GeoPIP(*, filename=None, geojson_dict=None)
+Docstring:
+GeoPIP: Geojson Point in Polygon (PIP)
+
+Reverse geocode a lng/lat coordinate within a geojson `FeatureCollection` and
+return information about the containing polygon.
+Init docstring:
+Provide the geojson either as a file (`filename`) or as a geojson
+dict (`geojson_dict`). If none of both is given, it tries to load the
+file pointed to in the environment variable `REVERSE_GEOCODE_DATA`. If the
+variable is not set, a default geojson will be loaded (packaged):
+    http://thematicmapping.org/downloads/world_borders.php
+
+During init, the geojson will be prepared (see pure / shapely implementation)
+and indexed with geohashes.
+
+Parameters:
+    filename: str                 Path to a geojson file.
+    geojson_dict: Dict[str, Any]  Geojson dictionary. `FeatureCollection` required!
+File:           ~/repositories/geopip/geopip/_geopip.py
+Type:           type
+```
+
+A `GeoPIP` object provides the same `search` and `search_all` functions.
