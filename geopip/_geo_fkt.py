@@ -149,7 +149,7 @@ def p_in_polygon(p, polygon):
     '''Test, whether `p` is in the polygon.
 
     Parameters:
-        p: Tuple[float, float]           2D Point.
+        p: Tuple[float, float]                    2D Point.
         polygon: List[List[Tuple[float, float]]]  Polygon, i.e. one exterior ring,
                                                   and multiple interior rings (holes).
 
