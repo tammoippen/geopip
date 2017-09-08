@@ -96,6 +96,7 @@ Other interesting shape data can be found at:
 - https://www2.census.gov/geo/tiger/: Various shape/gdb files and information for USA.
 - http://guides.library.upenn.edu/c.php?g=475518&p=3254770: Links to various geoinformation data.
 - http://thematicmapping.org/downloads/world_borders.php: Country borders and some interesting information. The default file is from here. There is also a higher resolution version.
+- https://github.com/evansiroky/timezone-boundary-builder: Time zone boundaries. See releases for downloads.
 
 **NOTE**: shapefiles / gdb databases have to be transformed into geojson. One way is to use [fiona](https://github.com/Toblerity/Fiona). Assuming the gdb files are in the directory `/data/gdb`:
 
