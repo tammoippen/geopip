@@ -5,10 +5,12 @@ notifications:
   email: false
 
 python:
-  - '2.7'
-  - '3.5'
-  - '3.6'
-  - nightly
+  - "2.7"
+  - "3.5"
+  - "3.6"
+  - "nightly"
+  - "pypy2.7-5.8.0"
+  - "pypy3.5-5.8.0"
 
 env:
   - WITH_SHAPELY=1
@@ -29,7 +31,10 @@ install:
   - pip list
   - python -c 'import geopip; print(geopip._geopip.p_in_polygon.__doc__)'
 
-script: PYTHONPATH=$PWD pytest -v --flake8 --cov-report=term-missing --cov=geopip
+script: PYTHONPATH=$PWD pytest -s
+
+after_success:
+  - coveralls
 
 before_deploy:
   - pip install pypandoc
