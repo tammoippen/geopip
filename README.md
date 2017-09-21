@@ -4,7 +4,6 @@
 [![Coverage Status](https://coveralls.io/repos/github/tammoippen/geopip/badge.svg?branch=master)](https://coveralls.io/github/tammoippen/geopip?branch=master)
 [![Tested CPython Versions](https://img.shields.io/badge/cpython-2.7%2C%203.5%2C%203.6%2C%20nightly-brightgreen.svg)](https://img.shields.io/badge/cpython-2.7%2C%203.5%2C%203.6%2C%20nightly-brightgreen.svg)
 [![Tested PyPy Versions](https://img.shields.io/badge/pypy-2.7--5.8.0%2C%203.5--5.8.0-brightgreen.svg)](https://img.shields.io/badge/pypy-2.7--5.8.0%2C%203.5--5.8.0-brightgreen.svg)
-[![PyPi downloads/month](https://img.shields.io/pypi/dm/geopip.svg)](https://pypi.python.org/pypi/geopip)
 [![PyPi version](https://img.shields.io/pypi/v/geopip.svg)](https://pypi.python.org/pypi/geopip)
 [![PyPi license](https://img.shields.io/pypi/l/geopip.svg)](https://pypi.python.org/pypi/geopip)
 
