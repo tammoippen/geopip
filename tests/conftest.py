@@ -1,6 +1,12 @@
+import os
 from random import random
 
 import pytest
+
+
+@pytest.fixture()
+def testdir():
+    return os.path.dirname(os.path.realpath(__file__))
 
 
 @pytest.fixture()

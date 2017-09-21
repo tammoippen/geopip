@@ -1,0 +1,157 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "star"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.0034,
+              0.0981
+            ],
+            [
+              -0.026,
+              0.0226
+            ],
+            [
+              -0.083,
+              0.0144
+            ],
+            [
+              -0.028,
+              -0.02
+            ],
+            [
+              -0.04,
+              -0.069
+            ],
+            [
+              0.0082,
+              -0.026
+            ],
+            [
+              0.0549,
+              -0.062
+            ],
+            [
+              0.0453,
+              -0.01
+            ],
+            [
+              0.1229,
+              0.0254
+            ],
+            [
+              0.0425,
+              0.0274
+            ],
+            [
+              0.0034,
+              0.0981
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "rect"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.1,
+              0.1
+            ],
+            [
+              1,
+              0.1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              0.1,
+              1
+            ],
+            [
+              0.1,
+              0.1
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "triangle"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.1,
+              0.1
+            ],
+            [
+              0.5,
+              1
+            ],
+            [
+              1,
+              0.1
+            ],
+            [
+              0.1,
+              0.1
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "trapezoid"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              0.1,
+              0.1
+            ],
+            [
+              0.5,
+              1
+            ],
+            [
+              1,
+              0.1
+            ],
+            [
+              0.5,
+              -1
+            ],
+            [
+              0.1,
+              0.1
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

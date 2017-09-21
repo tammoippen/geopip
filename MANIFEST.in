@@ -1,2 +1,4 @@
-include geopip/globe.geo.json
-include README.md
+include geopip/globe.geo.json tests/sample.geo.json README.md LICENSE.txt .travis.yml
+recursive-include geopip *.pyx *.py
+recursive-include tests *.py requirements.txt
+recursive-exclude geopip *.pyc

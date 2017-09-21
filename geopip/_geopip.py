@@ -60,8 +60,8 @@ class GeoPIP(object):
             filename: str                 Path to a geojson file.
             geojson_dict: Dict[str, Any]  Geojson dictionary. `FeatureCollection` required!
         '''
-        filename = kwargs.pop('filename')
-        geojson_dict = kwargs.pop('geojson_dict')
+        filename = kwargs.pop('filename', None)
+        geojson_dict = kwargs.pop('geojson_dict', None)
         if filename and geojson_dict:
             raise ValueError('Only one of `filename` or `geojson_dict` is allowed!')
 
@@ -82,7 +82,7 @@ class GeoPIP(object):
             if environ.get('REVERSE_GEOCODE_DATA'):
                 with open(environ['REVERSE_GEOCODE_DATA'], 'r') as f:
                     data = json.load(f)
-                self._source = environ['REVERSE_GEOCODE_DATA']
+                self._source = '<env = ' + environ['REVERSE_GEOCODE_DATA'] + ' >'
             else:
                 data = json.loads(pkg_resources.resource_string('geopip', 'globe.geo.json').decode())
                 self._source = '<package-data>'
