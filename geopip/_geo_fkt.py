@@ -25,7 +25,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from os.path import commonprefix
 
-from geohash2 import encode
+from geohash_hilbert import encode
 
 
 def bbox(shp):
@@ -88,8 +88,15 @@ def bbox_hash(bbox):
         str: geohash covering the complete bbox.
     '''
     minlng, minlat, maxlng, maxlat = bbox
-    ll = encode(latitude=minlat, longitude=minlng)
-    ur = encode(latitude=maxlat, longitude=maxlng)
+
+    # ensure values are in range
+    minlng = max(-180, minlng)
+    maxlng = min(180, maxlng)
+    minlat = max(-90, minlat)
+    maxlat = min(90, maxlat)
+
+    ll = encode(lng=minlng, lat=minlat, precision=16, bits_per_char=4)
+    ur = encode(lng=maxlng, lat=maxlat, precision=16, bits_per_char=4)
 
     return commonprefix((ll, ur))
 

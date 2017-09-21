@@ -17,7 +17,7 @@ setup(
     version=version,
     packages=find_packages(),
     install_requires=[
-        'geohash2',
+        'geohash-hilbert',
         # 'numpy',
         # 'shapely[vectorized]>=1.6b4',
     ],

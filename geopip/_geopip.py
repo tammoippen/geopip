@@ -26,7 +26,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 import json
 from os import environ
 
-from geohash2 import encode
+from geohash_hilbert import encode
 import pkg_resources
 
 from ._geo_fkt import bbox_hash, in_bbox
@@ -137,7 +137,7 @@ class GeoPIP(object):
         if not (-90 <= lat <= 90):
             raise ValueError('Latitude must be between -90 and 90.')
 
-        key = encode(latitude=lat, longitude=lng)
+        key = encode(lng=lng, lat=lat, precision=16, bits_per_char=4)
         for sub_key in [key] + [key[:-i] for i in range(1, len(key) + 1)]:
             # look withing geohash rectangles of increasing resolution
             for shp in self.shapes.get(sub_key, []):

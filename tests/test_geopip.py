@@ -25,10 +25,10 @@ def test_default_init():
     geo = GeoPIP()
 
     if SHAPELY_AVAILABLE:
-        assert len(geo.shapes) == 80  # hashes
+        assert len(geo.shapes) == 97  # hashes
         assert sum(len(ps) for ps in geo.shapes.values()) == 246  # multipolygons / countries
     else:
-        assert len(geo.shapes) == 2125  # hashes
+        assert len(geo.shapes) == 2364  # hashes
         assert sum(len(ps) for ps in geo.shapes.values()) == 3697  # polygons / parts of countries
 
     assert isinstance(geo.shapes, dict)  # geohash -> [shapes]
@@ -146,18 +146,18 @@ def test_dict_init(collection, rand_lng, rand_lat):
 
 
 def _test_sample_geojson(geo, rand_lng, rand_lat):
-    assert len(geo.shapes) == 2  # star and trapezoid in '', rect and triangle in 's00'
+    assert len(geo.shapes) == 2  # star and trapezoid in '', rect and triangle in '800'
     assert sum(len(ps) for ps in geo.shapes.values()) == 4
 
     assert 2 == len(geo.shapes[''])
     assert 'star' == geo.shapes[''][0]['properties']['type']
     assert 'trapezoid' == geo.shapes[''][1]['properties']['type']
 
-    assert 2 == len(geo.shapes['s00'])
-    assert 'rect' == geo.shapes['s00'][0]['properties']['type']
-    assert 'triangle' == geo.shapes['s00'][1]['properties']['type']
+    assert 2 == len(geo.shapes['800'])
+    assert 'rect' == geo.shapes['800'][0]['properties']['type']
+    assert 'triangle' == geo.shapes['800'][1]['properties']['type']
 
-    assert {'type': 'rect'} == geo.search(lng=0.5, lat=0.3)  # first in 's00' (most precise)
+    assert {'type': 'rect'} == geo.search(lng=0.5, lat=0.3)  # first in '800' (most precise)
     assert [{'type': 'rect'}, {'type': 'triangle'}, {'type': 'trapezoid'}] == list(geo.search_all(lng=0.5, lat=0.3))
 
     assert {'type': 'star'} == geo.search(lng=0., lat=0.)

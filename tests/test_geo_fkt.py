@@ -3,7 +3,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from random import random
 
-from geohash2 import decode_exactly
+from geohash_hilbert import decode_exactly
 from geopip._geo_fkt import bbox, bbox_hash, ccw, in_bbox, p_in_polygon, winding_number
 import pytest
 
@@ -181,7 +181,7 @@ def test_bbox_hash(rand_lng, rand_lat):
         box = (min_lng, min_lat, max_lng, max_lat)
 
         code = bbox_hash(box)
-        lat, lng, lat_err, lng_err = decode_exactly(code)
+        lng, lat, lng_err, lat_err = decode_exactly(code, bits_per_char=4)
 
         assert lat - lat_err <= min_lat
         assert lng - lng_err <= min_lng
