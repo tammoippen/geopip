@@ -119,10 +119,6 @@ fio insp /data/gdb
 ```
 Then the `gdb` will be transformed into a geojson file `gdb.geo.json`.
 
-# Improvements:
-
-- Unittesting!
-
 # Documentation
 
 (*TODO* more)
