@@ -217,8 +217,8 @@ def test_winding_number_rect(rect, rand_lat, rand_lng):
 
     # outside
     for i_ in range(100):
-        p = (rand_lng(), rand_lat)
-        if 0 <= p[0] <= 1 and 0 <= p[1] <= 1:
+        p = (rand_lng(), rand_lat())
+        if not (0 <= p[0] <= 1 and 0 <= p[1] <= 1):
             assert 0 == winding_number(p, rect)
             assert 0 == winding_number(p, rect_cw)
 
@@ -254,7 +254,7 @@ def test_winding_number_star(star, rand_lat, rand_lng):
     # outside
     box = bbox(dict(type='Polygon', coordinates=[star]))
     for i_ in range(100):
-        p = (rand_lng(), rand_lat)
+        p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):
             assert 0 == winding_number(p, star)
             assert 0 == winding_number(p, star_cw)
@@ -277,13 +277,13 @@ def test_p_in_polygon_rect(rect, rand_lat, rand_lng):
 
     # outside
     for i_ in range(100):
-        p = (rand_lng(), rand_lat)
-        if 0 <= p[0] <= 1 and 0 <= p[1] <= 1:
+        p = (rand_lng(), rand_lat())
+        if not (0 <= p[0] <= 1 and 0 <= p[1] <= 1):
             assert not p_in_polygon(p, rect)
             assert not p_in_polygon(p, rect_cw)
 
 
-def test_p_in_polygon_rect_w_hole(rect, rand_lat, rand_lng):
+def test_p_in_polygon_rect_w_hole(rect):
     hole = [(0.5, 0.1), (0.2, 0.2), (0.75, 0.2), (0.5, 0.1)]  # cw
     rect_cw = [list(reversed(rect)), list(reversed(hole))]
     rect = [rect, hole]
@@ -325,7 +325,7 @@ def test_p_in_polygon_star(star, rand_lat, rand_lng):
     # outside
     box = bbox(dict(type='Polygon', coordinates=star))
     for i_ in range(100):
-        p = (rand_lng(), rand_lat)
+        p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):
             assert not p_in_polygon(p, star)
             assert not p_in_polygon(p, star_cw)
