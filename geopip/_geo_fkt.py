@@ -99,21 +99,21 @@ def ccw(a, b, c):
 
     Returns:
         > 0 for c left of the line through a and b (ccw)
-        = 0 for p2 on the line
-        < 0 for p2  right of the line (not ccw)
+        = 0 for b on the line
+        < 0 for b right of the line (not ccw)
     '''
     return (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1])
 
 
-def is_convex(ring):  # TODO
-    n = len(ring)
-    for i in range(2, n):
-        p0 = ring[(i - 2) % n]
-        p1 = ring[(i - 1) % n]
-        p2 = ring[i % n]
-        if ccw(p0, p1, p2) > 0:
-            return False
-    return True
+# def is_convex(ring):  # TODO not used: maybe use for faster p_in_p test
+#     n = len(ring)
+#     for i in range(2, n):
+#         p0 = ring[(i - 2) % n]
+#         p1 = ring[(i - 1) % n]
+#         p2 = ring[i % n]
+#         if ccw(p0, p1, p2) > 0:
+#             return False
+#     return True
 
 
 def winding_number(p, ring):
