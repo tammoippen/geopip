@@ -28,7 +28,7 @@ install:
     fi
   - pip install pipenv
   - pipenv install --dev
-  - python -c 'import geopip; print(geopip._geopip.SHAPELY_AVAILABLE)'
+  - pipenv run python -c 'import geopip; print(geopip._geopip.SHAPELY_AVAILABLE)'
 
 script: PYTHONPATH=$PWD pipenv run pytest
 

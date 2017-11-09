@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8488ecee701cca9a3439b25e02caf490dad33b337acd46e15d8da506b6f25308"
+            "sha256": "feb4bc5e27729ad97c9b3b3794ea5d62a61dfc228d7bcce9526bc3b154b6b158"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -27,9 +27,15 @@
         ]
     },
     "default": {
-        "e1839a8": {
+        "2om6x5ml": {
             "editable": true,
             "path": "."
+        },
+        "geohash-hilbert": {
+            "hashes": [
+                "sha256:c2073fbc85b795560db2ab67ba50935562992dba5d3f7ae3b41cf42b1ceede83"
+            ],
+            "version": "==1.1"
         }
     },
     "develop": {

@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 "2om6x5ml" = {path = ".", editable = true}
+"geohash-hilbert" = "*"
 
 
 [dev-packages]
