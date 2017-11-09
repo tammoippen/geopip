@@ -33,8 +33,10 @@ from ._geo_fkt import bbox_hash, in_bbox
 
 try:
     from ._shapely import prepare, p_in_polygon
+    SHAPELY_AVAILABLE = True
 except ImportError:
     from ._pure import prepare, p_in_polygon
+    SHAPELY_AVAILABLE = False
 
 
 class GeoPIP(object):
@@ -44,7 +46,7 @@ class GeoPIP(object):
     return information about the containing polygon.
     '''
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, filename=None, geojson_dict=None):
         '''Provide the geojson either as a file (`filename`) or as a geojson
         dict (`geojson_dict`). If none of both is given, it tries to load the
         file pointed to in the environment variable `REVERSE_GEOCODE_DATA`. If the
@@ -54,19 +56,12 @@ class GeoPIP(object):
         During init, the geojson will be prepared (see pure / shapely implementation)
         and indexed with geohashes.
 
-        Provide the parameters as kwargs!
-
-        Allowed parameters:
+        Parameters:
             filename: str                 Path to a geojson file.
             geojson_dict: Dict[str, Any]  Geojson dictionary. `FeatureCollection` required!
         '''
-        filename = kwargs.pop('filename', None)
-        geojson_dict = kwargs.pop('geojson_dict', None)
         if filename and geojson_dict:
             raise ValueError('Only one of `filename` or `geojson_dict` is allowed!')
-
-        if len(args) != 0 or len(kwargs) != 0:
-            raise ValueError('Provide the arguments as kwargs. Only `filename` and `geojson_dict` are allowed.')
 
         self._source = None
         data = None

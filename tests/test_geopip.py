@@ -5,14 +5,13 @@ import json
 from os import environ
 
 from geopip import search, search_all
-from geopip._geopip import GeoPIP
+from geopip._geopip import GeoPIP, SHAPELY_AVAILABLE
 import pytest
 
 try:
     import shapely  # noqa: F401
-    SHAPELY_AVAILABLE = True
 except ImportError:
-    SHAPELY_AVAILABLE = False
+    pass
 
 
 @pytest.fixture()
@@ -107,14 +106,8 @@ def test_invalid(collection):
     with pytest.raises(ValueError):
         GeoPIP(filename='xyz.json', geojson_dict=collection)
 
-    with pytest.raises(ValueError):
-        GeoPIP(filenam='xyz.json')
-
-    with pytest.raises(ValueError):
-        GeoPIP(geojson_dic=collection)
-
-    with pytest.raises(ValueError):
-        GeoPIP('xyz.json')
+    with pytest.raises(TypeError):
+        GeoPIP(collection)
 
     with pytest.raises(ValueError):
         GeoPIP(geojson_dict=collection['features'])
