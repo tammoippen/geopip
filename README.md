@@ -11,6 +11,8 @@ Reverse geocode a lng/lat coordinate within a geojson `FeatureCollection` and re
 
 Basically, you can use any [geojson](https://tools.ietf.org/html/rfc7946) file (top level is a `FeatureCollection`) for reverse coding - set the environment variable `REVERSE_GEOCODE_DATA` to the geojson file. Only `Polygon` and `MultiPolygon` features will be used! If a point is found to be in a feature, the `properties` of that feature will be returned.
 
+In other words, provide a geojson with postcode boundaries, and you can query for the postcode in which a coordinate is. Provide timezone boundaries and you can find the timezone for a coordinate. Be creative :).
+
 The default shape data (contained within the package) is from [thematicmapping](http://thematicmapping.org/downloads/world_borders.php) (the simple shapes). It contains polygons representing one country with the following meta-data (`properties`):
 ```
 FIPS      String(2)         FIPS 10-4 Country Code
@@ -46,7 +48,7 @@ Out[2]:
 
 **NOTE**: Since the polygons for each country are quite simple, reverse geocoding at the borders of two countrys is **not** exact. Use polygons with higher resolution for these use cases (see [Data](#data)).
 
-The `shapely` package will be used, if installed. Otherwise, a pure python implementation will be used (on the basis of [winding numbers](https://en.wikipedia.org/wiki/Winding_number)). See [here](https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation), [here](http://geomalgorithms.com/a03-_inclusion.html) and [here](http://www.dgp.toronto.edu/~mac/e-stuff/point_in_polygon.py) for more informations and example implementations. Espacially for larger features, the shapely implementation might give performance improvements (default shape data and 2.6 GHz Intel Core i7, python3.6.2, cythonized version of [`geohash-hilbert`](https://github.com/tammoippen/geohash-hilbert)):
+The `shapely` package will be used, if installed. Otherwise, a pure python implementation will be used (on the basis of [winding numbers](https://en.wikipedia.org/wiki/Winding_number)). See [here](https://www.toptal.com/python/computational-geometry-in-python-from-theory-to-implementation), [here](http://geomalgorithms.com/a03-_inclusion.html) and [here](http://www.dgp.toronto.edu/~mac/e-stuff/point_in_polygon.py) for more informations and example implementations. Espacially for larger features, the shapely implementation might give performance improvements (default shape data and 2.6 GHz Intel Core i7, python3.6.2, cythonized version of [geohash-hilbert](https://github.com/tammoippen/geohash-hilbert)):
 
 *Pure*:
 ```python
@@ -92,7 +94,23 @@ In [3]: %timeit geopip.search(4.910248, 50.850981)
 50 µs ± 601 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
 ```
 
-# Data
+For simple geojsons, the pure python implementation is faster, but on more complex polygons, the shapely implementation will win.
+
+## Install
+```sh
+pip install geopip
+```
+
+If you require the extra speed, because you have many polygons and / or very detailed polygons, try installing geohash-hilbert with Cython extensions and / or have (vectorized) shapely installed.
+```sh
+# make sure to have GEOS library installed (including dev extensions)
+pip install numpy 'shapely[vectorized]>=1.6'
+
+pip install cython  # for building geohash-hilbert's cython extension
+pip install --upgrade geohash-hilbert
+```
+
+## Data
 
 Other interesting shape data can be found at:
 
