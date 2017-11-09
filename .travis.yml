@@ -26,22 +26,23 @@ install:
   - if [ $WITH_SHAPELY -eq 1 ]; then
       pip install numpy "shapely[vectorized]>=1.6b4" ;
     fi
-  - pip install .
-  - pip install -r tests/requirements.txt
-  - pip list
-  - python -c 'import geopip; print(geopip._geopip.p_in_polygon.__doc__)'
+  - pip install pipenv
+  - pipenv install --dev
+  - python -c 'import geopip; print(geopip._geopip.SHAPELY_AVAILABLE)'
 
-script: PYTHONPATH=$PWD pytest -s
+script: PYTHONPATH=$PWD pipenv run pytest
 
 after_success:
   - coveralls
 
 before_deploy:
-  - pip install pypandoc
+  - git stash --all
+  - pandoc --from=markdown --to=rst --output=README.rst README.md
 
 deploy:
   provider: pypi
   user: tammoippen
+  skip_cleanup: true
   password:
     secure: l+dWOwBywp+TyFgPEoJBhR+I44E4AMCgjxIaEd6AD0bv2yPeJQGUX/oPiOlQVbtcjqBbESZ6dZA0FVYcO7OCP+uK768S18GaTketFz7EByrSJqrjOt5Ka4TCgAPfo5d/0pHeEGQUqjHWNsP9V0WSx4UFIBv0s7bs8uLduJrGDdyjpH/Ki/l5Arl+H8gygdFRzW4oIhF0u/7AjQ1VKN9WZV9HYB6D+SF0rWP2bZvqFMvBBfwagCbwLsD2QPGJz4nFwBoL5bY2YrEEQ6TrtQbyqL65IS9wYfrEo2c/miC7nCS2p2pI9jRqnMENREvKeJRx2Nck0ZKxdW1R63odvU5I4+OzG5BKo/Q7GHma1jCXn8Qj/RPYIEDIiCmgeTXElq13409J2TA34dpIM32hfXt4SmHzACwPvy5tr1FMGIYrFqVCl9J4Z3kDRkIvZP9EYhFrOy11hVCXNEUv79qk8YswmWhgs/tsB9IiriZD9CewtpbmiEvok//X0ExeykTe93t6D27ehDPwDm4j/FisTLv6i2PRXySqWnE0+Q6cCoAmeDG5GyJ4KKzbPE9sdqQoyrh1bbSGfRfVGdzVKyaHO1Y3y1U5raXEuZ4nNJ0XWIWiwgedB4YFsF/7ZWN7MbGZ7QXxifXEPXsrEMVOofyx349mhIJP1ibCh/Zh+QTrYldXNmw=
   on:
