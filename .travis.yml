@@ -23,10 +23,10 @@ addons:
       - pandoc
 
 install:
-  - if [ $WITH_SHAPELY -eq 1 ]; then
-      pip install numpy "shapely[vectorized]>=1.6b4" ;
-    fi
   - pip install pipenv
+  - if [ $WITH_SHAPELY -eq 1 ]; then
+      pipenv install numpy "shapely[vectorized]>=1.6b4" --skip-lock ;
+    fi
   - pipenv install --dev
   - pipenv run python -c 'import geopip; print(geopip._geopip.SHAPELY_AVAILABLE)'
 
