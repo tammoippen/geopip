@@ -122,6 +122,7 @@ Other interesting shape data can be found at:
 - https://github.com/evansiroky/timezone-boundary-builder: Time zone boundaries. See releases for downloads.
 - https://www.suche-postleitzahl.org/plz-karte-erstellen: DE postalcodes + size + population (Census / OSM).
 - https://www2.census.gov/geo/tiger/TIGER2010DP1/ZCTA_2010Census_DP1.zip: US postalcodes + size + population (Census; field definition see `DP_TableDescriptions.xls` in the zip).
+- https://github.com/berlinermorgenpost/Berlin-Geodaten: Geo shapes of Berlin, DE.
 
 **NOTE**: shapefiles / gdb databases have to be transformed into geojson. One way is to use [fiona](https://github.com/Toblerity/Fiona). Assuming the gdb files are in the directory `/data/gdb`:
 
