@@ -123,6 +123,8 @@ Other interesting shape data can be found at:
 - https://www.suche-postleitzahl.org/plz-karte-erstellen: DE postalcodes + size + population (Census / OSM).
 - https://www2.census.gov/geo/tiger/TIGER2010DP1/ZCTA_2010Census_DP1.zip: US postalcodes + size + population (Census; field definition see `DP_TableDescriptions.xls` in the zip).
 - https://github.com/berlinermorgenpost/Berlin-Geodaten: Geo shapes of Berlin, DE.
+- https://github.com/gregoiredavid/france-geojson: Geojson of regions, arrondissements, ... France.
+- https://data.opendatasoft.com/explore/dataset/arrondissements@parisdata/: Geojson of arrondissements of Paris, FR.
 
 **NOTE**: shapefiles / gdb databases have to be transformed into geojson. One way is to use [fiona](https://github.com/Toblerity/Fiona). Assuming the gdb files are in the directory `/data/gdb`:
 
