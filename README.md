@@ -125,6 +125,7 @@ Other interesting shape data can be found at:
 - https://github.com/berlinermorgenpost/Berlin-Geodaten: Geo shapes of Berlin, DE.
 - https://github.com/gregoiredavid/france-geojson: Geojson of regions, arrondissements, ... France.
 - https://data.opendatasoft.com/explore/dataset/arrondissements@parisdata/: Geojson of arrondissements of Paris, FR.
+- https://data.opendatasoft.com/pages/home/: Lots of different data, some have geojson, see above.
 
 **NOTE**: shapefiles / gdb databases have to be transformed into geojson. One way is to use [fiona](https://github.com/Toblerity/Fiona). Assuming the gdb files are in the directory `/data/gdb`:
 
