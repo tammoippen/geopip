@@ -31,7 +31,9 @@ before_install:
 install:
   - poetry install
   - if [ $WITH_SHAPELY -eq 1 ]; then
-      poetry add numpy "shapely[vectorized]>=1.6b4" ;
+      poetry install -E fast ;
+    else
+      poetry install ;
     fi
   - poetry run python -c 'import geopip; print(geopip._geopip.SHAPELY_AVAILABLE)'
 

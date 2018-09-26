@@ -32,6 +32,7 @@ classifiers = [
 python = "~2.7 || ^3.5"
 
 geohash-hilbert = "^1.2"
+shapely = {version = "^1.6", optional = true, extras = ["vectorized"]}
 
 [tool.poetry.dev-dependencies]
 
@@ -50,3 +51,6 @@ pytest-mccabe = "^0.1"
 python-coveralls = "^2.9.1"
 pytest-pythonpath =  "^0.7.3"
 six = "^1.11.0"
+
+[tool.poetry.extras]
+fast = ["shapely"]
