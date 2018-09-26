@@ -31,7 +31,7 @@ speedups.enable()
 
 
 def prepare(feat):
-    '''Prepare geojson feature for further processing in `geopip._shapely.p_in_polygon()`
+    """Prepare geojson feature for further processing in `geopip._shapely.p_in_polygon()`
 
     Parameters:
         feat: Dict[str, Any]  Geojson feature (only Polygon and MultiPolygon will
@@ -39,20 +39,20 @@ def prepare(feat):
 
     Returns:
         List[Dict[str, Any]]  Prepared shapes for `geopip._shapely.p_in_polygon()`
-    '''
+    """
     if feat['geometry']['type'] in ('Polygon', 'MultiPolygon'):
         shp = shape(feat['geometry'])
-        return [dict(
-            shape=prep(shp),
-            properties=feat['properties'],
-            bounds=shp.bounds
-        )]
+        return [{
+            'shape': prep(shp),
+            'properties': feat['properties'],
+            'bounds': shp.bounds,
+        }]
     else:
         return []
 
 
 def p_in_polygon(p, shp):
-    '''Test, whether point `p` is in shape `shp`.
+    """Test, whether point `p` is in shape `shp`.
 
     Use the shapely implementation.
 
@@ -62,5 +62,5 @@ def p_in_polygon(p, shp):
 
     Returns:
         boolean: True, if p in shp, False otherwise
-    '''
+    """
     return shp['shape'].contains(Point(*p))

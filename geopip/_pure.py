@@ -28,7 +28,7 @@ from ._geo_fkt import p_in_polygon as pure_p_in_polygon
 
 
 def prepare(feat):
-    '''Prepare geojson feature for further processing in `geopip._pure.p_in_polygon()`
+    """Prepare geojson feature for further processing in `geopip._pure.p_in_polygon()`
 
     Parameters:
         feat: Dict[str, Any]  Geojson feature (only Polygon and MultiPolygon will
@@ -36,31 +36,31 @@ def prepare(feat):
 
     Returns:
         List[Dict[str, Any]]  Prepared shapes for `geopip._pure.p_in_polygon()`
-    '''
+    """
     shp = feat['geometry']
     res = []
     if shp['type'] == 'MultiPolygon':
         for p_coords in shp['coordinates']:
-            polygon = dict(
-                type='Polygon',
-                coordinates=p_coords
-            )
-            res += [dict(
-                shape=polygon,
-                properties=feat['properties'],
-                bounds=bbox(polygon)
-            )]
+            polygon = {
+                'type': 'Polygon',
+                'coordinates': p_coords,
+            }
+            res += [{
+                'shape': polygon,
+                'properties': feat['properties'],
+                'bounds': bbox(polygon),
+            }]
     elif shp['type'] == 'Polygon':
-        res += [dict(
-            shape=shp,
-            properties=feat['properties'],
-            bounds=bbox(shp)
-        )]
+        res += [{
+            'shape': shp,
+            'properties': feat['properties'],
+            'bounds': bbox(shp),
+        }]
     return res
 
 
 def p_in_polygon(p, shp):
-    '''Test, whether point `p` is in shape `shp`.
+    """Test, whether point `p` is in shape `shp`.
 
     Use the pure python implementation.
 
@@ -70,5 +70,5 @@ def p_in_polygon(p, shp):
 
     Returns:
         boolean: True, if p in shp, False otherwise
-    '''
+    """
     return pure_p_in_polygon(p, shp['shape']['coordinates'])

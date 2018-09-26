@@ -12,41 +12,41 @@ from geopip._pure import p_in_polygon, prepare
 
 
 def test_prepare_invalids(rect):
-    ls = dict(type='LineString', coordinates=rect)
-    feature = dict(
-        geometry=ls,
-        properties={'a': 1},
-        type='Feature'
-    )
+    ls = {'type': 'LineString', 'coordinates': rect}
+    feature = {
+        'geometry': ls,
+        'properties': {'a': 1},
+        'type': 'Feature',
+    }
 
     assert [] == prepare(feature)
 
-    mls = dict(type='MultiLineString', coordinates=[rect])
-    feature = dict(
-        geometry=mls,
-        properties={'a': 1},
-        type='Feature'
-    )
+    mls = {'type': 'MultiLineString', 'coordinates': [rect]}
+    feature = {
+        'geometry': mls,
+        'properties': {'a': 1},
+        'type': 'Feature',
+    }
 
     assert [] == prepare(feature)
 
-    mp = dict(type='MultiPoint', coordinates=rect)
-    feature = dict(
-        geometry=mp,
-        properties={'a': 1},
-        type='Feature'
-    )
+    mp = {'type': 'MultiPoint', 'coordinates': rect}
+    feature = {
+        'geometry': mp,
+        'properties': {'a': 1},
+        'type': 'Feature',
+    }
 
     assert [] == prepare(feature)
 
 
 def test_prepare_polygon(rect):
-    rect_poly = dict(type='Polygon', coordinates=[rect])
-    rect_feature = dict(
-        geometry=rect_poly,
-        properties={'a': 1},
-        type='Feature'
-    )
+    rect_poly = {'type': 'Polygon', 'coordinates': [rect]}
+    rect_feature = {
+        'geometry': rect_poly,
+        'properties': {'a': 1},
+        'type': 'Feature',
+    }
 
     p_rect = prepare(rect_feature)
 
@@ -58,13 +58,13 @@ def test_prepare_polygon(rect):
 
 
 def test_prepare_single_multypolygon(rect):
-    rect_poly = dict(type='Polygon', coordinates=[rect])
-    rect_mpoly = dict(type='MultiPolygon', coordinates=[[rect]])
-    rect_feature = dict(
-        geometry=rect_mpoly,
-        properties={'a': 1},
-        type='Feature'
-    )
+    rect_poly = {'type': 'Polygon', 'coordinates': [rect]}
+    rect_mpoly = {'type': 'MultiPolygon', 'coordinates': [[rect]]}
+    rect_feature = {
+        'geometry': rect_mpoly,
+        'properties': {'a': 1},
+        'type': 'Feature',
+    }
 
     p_rect = prepare(rect_feature)
 
@@ -76,15 +76,15 @@ def test_prepare_single_multypolygon(rect):
 
 
 def test_prepare_many_multypolygon(rect, triangle, trapezoid):
-    triangle_poly = dict(type='Polygon', coordinates=[triangle])
-    rect_poly = dict(type='Polygon', coordinates=[rect])
-    trapezoid_poly = dict(type='Polygon', coordinates=[trapezoid])
-    mpoly = dict(type='MultiPolygon', coordinates=[[triangle], [rect], [trapezoid]])
-    feature = dict(
-        geometry=mpoly,
-        properties={'a': 1},
-        type='Feature'
-    )
+    triangle_poly = {'type': 'Polygon', 'coordinates': [triangle]}
+    rect_poly = {'type': 'Polygon', 'coordinates': [rect]}
+    trapezoid_poly = {'type': 'Polygon', 'coordinates': [trapezoid]}
+    mpoly = {'type': 'MultiPolygon', 'coordinates': [[triangle], [rect], [trapezoid]]}
+    feature = {
+        'geometry': mpoly,
+        'properties': {'a': 1},
+        'type': 'Feature',
+    }
 
     prepared = prepare(feature)
 
@@ -115,11 +115,11 @@ def test_prepare_many_multypolygon(rect, triangle, trapezoid):
 
 
 def test_p_in_polygon_rect(rect, rand_lat, rand_lng):
-    rect_cw = dict(type='Polygon', coordinates=[list(reversed(rect))])
-    rect = dict(type='Polygon', coordinates=[rect])
+    rect_cw = {'type': 'Polygon', 'coordinates': [list(reversed(rect))]}
+    rect = {'type': 'Polygon', 'coordinates': [rect]}
 
-    p_rect_cw = prepare(dict(geometry=rect_cw, properties={}))[0]
-    p_rect = prepare(dict(geometry=rect, properties={}))[0]
+    p_rect_cw = prepare({'geometry': rect_cw, 'properties': {}})[0]
+    p_rect = prepare({'geometry': rect, 'properties': {}})[0]
 
     # inside
     for i_ in range(100):
@@ -137,11 +137,11 @@ def test_p_in_polygon_rect(rect, rand_lat, rand_lng):
 
 def test_p_in_polygon_rect_w_hole(rect):
     hole = [(0.5, 0.1), (0.2, 0.2), (0.75, 0.2), (0.5, 0.1)]  # cw
-    rect_cw = dict(type='Polygon', coordinates=[list(reversed(rect)), list(reversed(hole))])
-    rect = dict(type='Polygon', coordinates=[rect, hole])
+    rect_cw = {'type': 'Polygon', 'coordinates': [list(reversed(rect)), list(reversed(hole))]}
+    rect = {'type': 'Polygon', 'coordinates': [rect, hole]}
 
-    p_rect_cw = prepare(dict(geometry=rect_cw, properties={}))[0]
-    p_rect = prepare(dict(geometry=rect, properties={}))[0]
+    p_rect_cw = prepare({'geometry': rect_cw, 'properties': {}})[0]
+    p_rect = prepare({'geometry': rect, 'properties': {}})[0]
 
     # in hole
     assert not p_in_polygon((0.5, 0.15), p_rect)
@@ -153,11 +153,11 @@ def test_p_in_polygon_rect_w_hole(rect):
 
 
 def test_p_in_polygon_star(star, rand_lat, rand_lng):
-    star_cw = dict(type='Polygon', coordinates=[list(reversed(star))])
-    star = dict(type='Polygon', coordinates=[star])
+    star_cw = {'type': 'Polygon', 'coordinates': [list(reversed(star))]}
+    star = {'type': 'Polygon', 'coordinates': [star]}
 
-    p_star_cw = prepare(dict(geometry=star_cw, properties={}))[0]
-    p_star = prepare(dict(geometry=star, properties={}))[0]
+    p_star_cw = prepare({'geometry': star_cw, 'properties': {}})[0]
+    p_star = prepare({'geometry': star, 'properties': {}})[0]
 
     # inside
     for i_ in range(100):
