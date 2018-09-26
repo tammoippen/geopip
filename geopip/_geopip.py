@@ -25,6 +25,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import json
 from os import environ
+import sys
 
 from geohash_hilbert import encode
 import pkg_resources
@@ -37,6 +38,9 @@ try:
 except ImportError:
     from ._pure import prepare, p_in_polygon
     SHAPELY_AVAILABLE = False
+
+if sys.version_info[0] != 3:
+    from io import open
 
 
 class GeoPIP(object):
@@ -66,7 +70,7 @@ class GeoPIP(object):
         self._source = None
         data = None
         if filename is not None:
-            with open(filename, 'r') as f:
+            with open(filename, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             self._source = filename
         elif geojson_dict is not None:
@@ -75,7 +79,7 @@ class GeoPIP(object):
         else:
             # load default
             if environ.get('REVERSE_GEOCODE_DATA'):
-                with open(environ['REVERSE_GEOCODE_DATA'], 'r') as f:
+                with open(environ['REVERSE_GEOCODE_DATA'], 'r', encoding='utf-8') as f:
                     data = json.load(f)
                 self._source = '<env = ' + environ['REVERSE_GEOCODE_DATA'] + ' >'
             else:
