@@ -3,6 +3,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import json
 from os import environ
+import sys
 
 from geopip import search, search_all
 from geopip._geopip import GeoPIP, SHAPELY_AVAILABLE
@@ -13,10 +14,13 @@ try:
 except ImportError:
     pass
 
+if sys.version_info[0] != 3:
+    from io import open
+
 
 @pytest.fixture()
 def collection(testdir):
-    with open(testdir + '/sample.geo.json', 'r') as f:
+    with open(testdir + '/sample.geo.json', 'r', encoding='utf-8') as f:
         return json.load(f)
 
 

@@ -8,43 +8,48 @@ python:
   - "2.7"
   - "3.5"
   - "3.6"
+  - "3.7-dev"
   - "nightly"
-  - "pypy2.7-5.8.0"
-  - "pypy3.5-5.8.0"
+  - "pypy"
+  - "pypy3.5"
 
 env:
-  - WITH_SHAPELY=1
-  - WITH_SHAPELY=0
+  matrix:
+    - WITH_SHAPELY=1
+    - WITH_SHAPELY=0
+  global:
+    secure: "UpVMzQjYMoyt8cbWc/QPNqRzV2Z9rnIqCAY0BP/DdRHDjhzRTmvoiEEYhAa6Bl10EAWosC23lc262x0EliWJ6wt5iy9VjPw+Ep+VBIrzG7Rl/q1lnPBmTfg7r2fbiwKUbFYSTVj7dQ3hCTHfr4BIQ1ZluisaPKZf8oRxoii528xGRHz2eASSluXba22bzN+QyuKWGDYxEdctsS3m+HAr9A+HpN+1MiMYDzsrv/CkdVWdll9K8E53uuucvgV8NhY9oS+iAL/JQxB3fZO5Plj10cjS097GEdRnHI8h1dK59IKcaa1ZshTlDHNwacv6DfiGjtsgA/TxCi1LZWD/rp+qPYVtMTfHsYI6pznA8/BfB64eQIjbRroHkJ8ih2n3b7bc6BNNrvXpesD9+lleocnYL4XOeLJd+H9q/QvKSDv8IdXrj+K213Ohk65qCdAv1lNDlPirjwDH5pEc4ANp5Tiit/9HgO5khe77yDqmn1ob8AZoe7WwJQPx3dgr41LVFvqIk0tjEcfc0P+Q175Zr1+9o25QfZgIxUzss0k3QmKs+NBGbzOKqaxHmUi5sKggsRNWN+S5dxYa6v3WbzXUMPmvUEQ/UkHkqs93qmMOy2CUUZKkpq1xEc+fN1zGAMuXNNtjhD0iRSYkFU+4YxyO/ZPhJm7j4GnxOV7NO6H3LHwbZJo="
 
 addons:
   apt:
     packages:
       - libgeos-dev
-      - pandoc
+
+before_install:
+  - pip install poetry
 
 install:
-  - pip install pipenv
+  - poetry install
   - if [ $WITH_SHAPELY -eq 1 ]; then
-      pipenv install numpy "shapely[vectorized]>=1.6b4" --skip-lock ;
+      poetry install -E fast ;
+    else
+      poetry install ;
     fi
-  - pipenv install --dev
-  - pipenv run python -c 'import geopip; print(geopip._geopip.SHAPELY_AVAILABLE)'
+  - poetry run python -c 'import geopip; print(geopip._geopip.SHAPELY_AVAILABLE)'
 
-script: PYTHONPATH=$PWD pipenv run pytest
+script: poetry run pytest
 
 after_success:
   - coveralls
 
 before_deploy:
   - git stash --all
-  - pandoc --from=markdown --to=rst --output=README.rst README.md
+  - poetry build -f sdist
 
 deploy:
-  provider: pypi
-  user: tammoippen
+  provider: script
+  script: poetry publish -u tammoippen -p $PYPI_PASS
   skip_cleanup: true
-  password:
-    secure: l+dWOwBywp+TyFgPEoJBhR+I44E4AMCgjxIaEd6AD0bv2yPeJQGUX/oPiOlQVbtcjqBbESZ6dZA0FVYcO7OCP+uK768S18GaTketFz7EByrSJqrjOt5Ka4TCgAPfo5d/0pHeEGQUqjHWNsP9V0WSx4UFIBv0s7bs8uLduJrGDdyjpH/Ki/l5Arl+H8gygdFRzW4oIhF0u/7AjQ1VKN9WZV9HYB6D+SF0rWP2bZvqFMvBBfwagCbwLsD2QPGJz4nFwBoL5bY2YrEEQ6TrtQbyqL65IS9wYfrEo2c/miC7nCS2p2pI9jRqnMENREvKeJRx2Nck0ZKxdW1R63odvU5I4+OzG5BKo/Q7GHma1jCXn8Qj/RPYIEDIiCmgeTXElq13409J2TA34dpIM32hfXt4SmHzACwPvy5tr1FMGIYrFqVCl9J4Z3kDRkIvZP9EYhFrOy11hVCXNEUv79qk8YswmWhgs/tsB9IiriZD9CewtpbmiEvok//X0ExeykTe93t6D27ehDPwDm4j/FisTLv6i2PRXySqWnE0+Q6cCoAmeDG5GyJ4KKzbPE9sdqQoyrh1bbSGfRfVGdzVKyaHO1Y3y1U5raXEuZ4nNJ0XWIWiwgedB4YFsF/7ZWN7MbGZ7QXxifXEPXsrEMVOofyx349mhIJP1ibCh/Zh+QTrYldXNmw=
   on:
     branch: master
     tags: true

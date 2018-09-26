@@ -29,7 +29,7 @@ from geohash_hilbert import encode
 
 
 def bbox(shp):
-    '''Compute the bounding box of the given shape (Polygon and MultiPolygon allowed).
+    """Compute the bounding box of the given shape (Polygon and MultiPolygon allowed).
 
     If `shp` already contains a `bbox` member, return that instead.
 
@@ -38,7 +38,7 @@ def bbox(shp):
 
     Returns:
         Tuple[float, float, float, float]: Bounding box of `shp`: minlng, minlat, maxlng, maxlat
-    '''
+    """
     if shp.get('bbox'):
         return shp['bbox']
 
@@ -64,7 +64,7 @@ def bbox(shp):
 
 
 def in_bbox(p, bbox):
-    '''Test, whether point p (lng,lat) is in bbox (minlng, minlat, maxlng, maxlat)
+    """Test, whether point p (lng,lat) is in bbox (minlng, minlat, maxlng, maxlat)
 
     Parameters:
         p: Tuple[float, float]  2D point (lng, lat) (WGS84) Longitude (-180, 180) Latitude (-90, 90)
@@ -72,21 +72,21 @@ def in_bbox(p, bbox):
 
     Returns:
         bool: True, if point is in bbox, False otherwise.
-    '''
+    """
     lng, lat = p
     minlng, minlat, maxlng, maxlat = bbox
     return minlng <= lng <= maxlng and minlat <= lat <= maxlat
 
 
 def bbox_hash(bbox):
-    '''Get geohash from rectangle covering the complete bbox.
+    """Get geohash from rectangle covering the complete bbox.
 
     Parameters:
         bbox: Tuple[float, float, float, float]  Bounding box, (minlng, minlat, maxlng, maxlat)
 
     Returns:
         str: geohash covering the complete bbox.
-    '''
+    """
     minlng, minlat, maxlng, maxlat = bbox
 
     # ensure values are in range
@@ -102,13 +102,13 @@ def bbox_hash(bbox):
 
 
 def ccw(a, b, c):
-    '''Tests whether the turn formed by a, b, and c is CCW
+    """Tests whether the turn formed by a, b, and c is CCW
 
     Returns:
         > 0 for c left of the line through a and b (ccw)
         = 0 for b on the line
         < 0 for b right of the line (not ccw)
-    '''
+    """
     return (b[0] - a[0]) * (c[1] - a[1]) - (c[0] - a[0]) * (b[1] - a[1])
 
 
@@ -124,7 +124,7 @@ def ccw(a, b, c):
 
 
 def winding_number(p, ring):
-    '''Return the winding number of `p` wrt `ring`.
+    """Return the winding number of `p` wrt `ring`.
 
     If the winding number is 0, then p is outside of the ring.
 
@@ -134,7 +134,7 @@ def winding_number(p, ring):
 
     Returns:
         int: the winding number (=0 only if `p` is outside `ring`)
-    '''
+    """
     n = len(ring)
     wn = 0
     for i in range(1, n):
@@ -153,7 +153,7 @@ def winding_number(p, ring):
 
 
 def p_in_polygon(p, polygon):
-    '''Test, whether `p` is in the polygon.
+    """Test, whether `p` is in the polygon.
 
     Parameters:
         p: Tuple[float, float]                    2D Point.
@@ -162,7 +162,7 @@ def p_in_polygon(p, polygon):
 
     Returns:
         bool: True, if `p` in `polygon`, False otherwise.
-    '''
+    """
     assert len(polygon) >= 1
 
     if winding_number(p, polygon[0]) != 0:

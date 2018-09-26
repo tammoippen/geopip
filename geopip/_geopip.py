@@ -25,6 +25,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import json
 from os import environ
+import sys
 
 from geohash_hilbert import encode
 import pkg_resources
@@ -38,16 +39,19 @@ except ImportError:
     from ._pure import prepare, p_in_polygon
     SHAPELY_AVAILABLE = False
 
+if sys.version_info[0] != 3:
+    from io import open
+
 
 class GeoPIP(object):
-    '''GeoPIP: Geojson Point in Polygon (PIP)
+    """GeoPIP: Geojson Point in Polygon (PIP)
 
     Reverse geocode a lng/lat coordinate within a geojson `FeatureCollection` and
     return information about the containing polygon.
-    '''
+    """
 
     def __init__(self, filename=None, geojson_dict=None):
-        '''Provide the geojson either as a file (`filename`) or as a geojson
+        """Provide the geojson either as a file (`filename`) or as a geojson
         dict (`geojson_dict`). If none of both is given, it tries to load the
         file pointed to in the environment variable `REVERSE_GEOCODE_DATA`. If the
         variable is not set, a default geojson will be loaded (packaged):
@@ -59,14 +63,14 @@ class GeoPIP(object):
         Parameters:
             filename: str                 Path to a geojson file.
             geojson_dict: Dict[str, Any]  Geojson dictionary. `FeatureCollection` required!
-        '''
+        """
         if filename and geojson_dict:
             raise ValueError('Only one of `filename` or `geojson_dict` is allowed!')
 
         self._source = None
         data = None
         if filename is not None:
-            with open(filename, 'r') as f:
+            with open(filename, 'r', encoding='utf-8') as f:
                 data = json.load(f)
             self._source = filename
         elif geojson_dict is not None:
@@ -75,7 +79,7 @@ class GeoPIP(object):
         else:
             # load default
             if environ.get('REVERSE_GEOCODE_DATA'):
-                with open(environ['REVERSE_GEOCODE_DATA'], 'r') as f:
+                with open(environ['REVERSE_GEOCODE_DATA'], 'r', encoding='utf-8') as f:
                     data = json.load(f)
                 self._source = '<env = ' + environ['REVERSE_GEOCODE_DATA'] + ' >'
             else:
@@ -90,7 +94,7 @@ class GeoPIP(object):
 
     @staticmethod
     def _initialize_shapes(data):
-        shapes = dict()  # geohash -> shapes
+        shapes = {}  # geohash -> shapes
         for feat in data['features']:
             for shp in prepare(feat):
                 key = bbox_hash(shp['bounds'])
@@ -105,7 +109,7 @@ class GeoPIP(object):
         return 'GeoPIP from {}: {} hashes, {} polygons'.format(
             self._source,
             len(self.shapes),
-            sum(len(ps) for ps in self.shapes.values())
+            sum(len(ps) for ps in self.shapes.values()),
         )
 
     @property
@@ -113,7 +117,7 @@ class GeoPIP(object):
         return self._shapes
 
     def search_all(self, lng, lat):
-        '''Reverse geocode lng/lat coordinate within the features from `self.shapes`.
+        """Reverse geocode lng/lat coordinate within the features from `self.shapes`.
 
         Look within the features from `self.shapes` for all polygon that
         contains the point (lng, lat). From all found feature the `porperties`
@@ -126,7 +130,7 @@ class GeoPIP(object):
 
         Returns:
             Iterator[Dict[Any, Any]]  Iterator for `properties` of found features.
-        '''
+        """
         if not (-180 <= lng <= 180):
             raise ValueError('Longitude must be between -180 and 180.')
         if not (-90 <= lat <= 90):
@@ -145,7 +149,7 @@ class GeoPIP(object):
                         # look for other overlaps
 
     def search(self, lng, lat):
-        '''Reverse geocode lng/lat coordinate within the features from `self.shapes`.
+        """Reverse geocode lng/lat coordinate within the features from `self.shapes`.
 
         Look within the features from `self.shapes` for a polygon that
         contains the point (lng, lat). From the first found feature the `porperties`
@@ -157,7 +161,7 @@ class GeoPIP(object):
 
         Returns:
             Dict[Any, Any]  `Properties` of found feature. `None` if nothing is found.
-        '''
+        """
         try:
             return next(self.search_all(lng, lat))
         except StopIteration:

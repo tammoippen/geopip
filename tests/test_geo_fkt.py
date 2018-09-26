@@ -13,123 +13,123 @@ import pytest
 ################################################################################
 
 def test_has_member():
-    assert bbox(dict(bbox=[0, 0, 1, 1])) == [0, 0, 1, 1]
+    assert bbox({'bbox': [0, 0, 1, 1]}) == [0, 0, 1, 1]
 
 
 def test_no_poly():
     for type_ in ('Position', 'Point', 'MultiPoint', 'LineString', 'MultiLineString', 'GeometryCollection'):
         with pytest.raises(ValueError):
-            bbox(dict(type=type_))
+            bbox({'type': type_})
 
 
 def test_simple_polys(triangle, rect, trapezoid):
-    poly = dict(
-        type='Polygon',
-        coordinates=[
-            triangle
-        ]
-    )
+    poly = {
+        'type': 'Polygon',
+        'coordinates': [
+            triangle,
+        ],
+    }
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = dict(
-        type='Polygon',
-        coordinates=[
-            rect
-        ]
-    )
+    poly = {
+        'type': 'Polygon',
+        'coordinates': [
+            rect,
+        ],
+    }
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = dict(
-        type='Polygon',
-        coordinates=[
-            trapezoid
-        ]
-    )
+    poly = {
+        'type': 'Polygon',
+        'coordinates': [
+            trapezoid,
+        ],
+    }
 
     assert bbox(poly) == (0, -1, 1, 1)
 
 
 def test_polys_ignore_holes(triangle):
-    poly = dict(
-        type='Polygon',
-        coordinates=[
+    poly = {
+        'type': 'Polygon',
+        'coordinates': [
             triangle,
-            [(0.5, 0.1), (0.75, 0.2), (0.2, 0.2), (0.5, 0.1)]  # valid hole
-        ]
-    )
+            [(0.5, 0.1), (0.75, 0.2), (0.2, 0.2), (0.5, 0.1)],  # valid hole
+        ],
+    }
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = dict(
-        type='Polygon',
-        coordinates=[
+    poly = {
+        'type': 'Polygon',
+        'coordinates': [
             triangle,
-            [(1.5, 0.1), (1.75, 0.2), (0.2, -0.2), (1.5, 0.1)]  # invalid hole
-        ]
-    )
+            [(1.5, 0.1), (1.75, 0.2), (0.2, -0.2), (1.5, 0.1)],  # invalid hole
+        ],
+    }
 
     assert bbox(poly) == (0, 0, 1, 1)
 
 
 def test_simple_multipolys(triangle, rect, trapezoid):
-    poly = dict(
-        type='MultiPolygon',
-        coordinates=[[
-            triangle
-        ]]
-    )
+    poly = {
+        'type': 'MultiPolygon',
+        'coordinates': [[
+            triangle,
+        ]],
+    }
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = dict(
-        type='MultiPolygon',
-        coordinates=[[
-            rect
-        ]]
-    )
+    poly = {
+        'type': 'MultiPolygon',
+        'coordinates': [[
+            rect,
+        ]],
+    }
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = dict(
-        type='MultiPolygon',
-        coordinates=[[
-            trapezoid
-        ]]
-    )
+    poly = {
+        'type': 'MultiPolygon',
+        'coordinates': [[
+            trapezoid,
+        ]],
+    }
 
     assert bbox(poly) == (0, -1, 1, 1)
 
 
 def test_many_simple_multipolys(trapezoid, rect, triangle):
-    poly = dict(
-        type='MultiPolygon',
-        coordinates=[[
-            triangle
+    poly = {
+        'type': 'MultiPolygon',
+        'coordinates': [[
+            triangle,
         ], [
-            rect
+            rect,
         ], [
-            trapezoid
-        ]]
-    )
+            trapezoid,
+        ]],
+    }
 
     assert bbox(poly) == (0, -1, 1, 1)
 
 
 def test_multipolys_ignore_holes():
-    poly = dict(
-        type='MultiPolygon',
-        coordinates=[[
+    poly = {
+        'type': 'MultiPolygon',
+        'coordinates': [[
             [(0, 0), (0.5, 1), (1, 0), (0, 0)],  # triangle
-            [(1.5, 0.1), (1.75, 0.2), (0.2, -0.2), (1.5, 0.1)]  # invalid hole
+            [(1.5, 0.1), (1.75, 0.2), (0.2, -0.2), (1.5, 0.1)],  # invalid hole
         ], [
             [(0, 0), (0, 1), (1, 1), (1, 0), (0, 0)],  # Rectangle
-            [(0.5, 0.1), (0.75, 0.2), (0.2, 0.2), (0.5, 0.1)]  # valid hole
+            [(0.5, 0.1), (0.75, 0.2), (0.2, 0.2), (0.5, 0.1)],  # valid hole
         ], [
-            [(0, 0), (0.5, 1), (1, 0), (0.5, -1), (0, 0)]  # trapezoid
-        ]]
-    )
+            [(0, 0), (0.5, 1), (1, 0), (0.5, -1), (0, 0)],  # trapezoid
+        ]],
+    }
 
     assert bbox(poly) == (0, -1, 1, 1)
 
@@ -252,7 +252,7 @@ def test_winding_number_star(star, rand_lat, rand_lng):
     assert winding_number(p, star) == -winding_number(p, star_cw)
 
     # outside
-    box = bbox(dict(type='Polygon', coordinates=[star]))
+    box = bbox({'type': 'Polygon', 'coordinates': [star]})
     for i_ in range(100):
         p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):
@@ -323,7 +323,7 @@ def test_p_in_polygon_star(star, rand_lat, rand_lng):
     assert p_in_polygon(p, star_cw)
 
     # outside
-    box = bbox(dict(type='Polygon', coordinates=star))
+    box = bbox({'type': 'Polygon', 'coordinates': star})
     for i_ in range(100):
         p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):

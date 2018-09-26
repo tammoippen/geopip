@@ -36,10 +36,10 @@ __all__ = [
 
 _INSTANCE = None
 def instance():  # noqa: E302
-    '''Singleton GeoPIP instance (lasy loading)
+    """Singleton GeoPIP instance (lasy loading)
 
     Is used in the `search_all` and `search` functions.
-    '''
+    """
     global _INSTANCE
     if _INSTANCE is not None:
         return _INSTANCE
@@ -50,7 +50,7 @@ def instance():  # noqa: E302
 
 
 def search_all(lng, lat):
-    '''Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
+    """Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
 
     Look within the features from the `instance().shapes` function for all polygon that
     contains the point (lng, lat). From all found feature the `porperties`
@@ -63,12 +63,12 @@ def search_all(lng, lat):
 
     Returns:
         Iterator[Dict[Any, Any]]  Iterator for `properties` of found features.
-    '''
+    """
     return instance().search_all(lng, lat)
 
 
 def search(lng, lat):
-    '''Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
+    """Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
 
     Look within the features from the `instance().shapes` function for a polygon that
     contains the point (lng, lat). From the first found feature the `porperties`
@@ -80,5 +80,5 @@ def search(lng, lat):
 
     Returns:
         Dict[Any, Any]  `Properties` of found feature. `None` if nothing is found.
-    '''
+    """
     return instance().search(lng, lat)
