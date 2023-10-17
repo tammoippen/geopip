@@ -1,7 +1,6 @@
 # GEOPIP: Geojson Point in Polygon (PIP)
 
-[![Build Status](https://travis-ci.org/tammoippen/geopip.svg?branch=master)](https://travis-ci.org/tammoippen/geopip)
-
+[![CI](https://github.com/tammoippen/geopip/actions/workflows/CI.yml/badge.svg)](https://github.com/tammoippen/geopip/actions/workflows/CI.yml)
 [![Coverage Status](https://coveralls.io/repos/github/tammoippen/geopip/badge.svg?branch=master)](https://coveralls.io/github/tammoippen/geopip?branch=master)
 [![Tested CPython Versions](https://img.shields.io/badge/cpython-3.7%2C%203.8%2C%203.9%2C%203.10%2C%203.11%2C%203.12-brightgreen.svg)](https://img.shields.io/badge/cpython-3.7%2C%203.8%2C%203.9%2C%203.10%2C%203.11%2C%203.12-brightgreen.svg)
 [![Tested PyPy Versions](https://img.shields.io/badge/pypy-3.9%2C%203.10-brightgreen.svg)](https://img.shields.io/badge/pypy-3.9%2C%203.10-brightgreen.svg)
