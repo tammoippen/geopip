@@ -34,22 +34,17 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      # - name: Cache Install
-      #   id: restore-cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       ~/.cache/pip
-      #       poetry.lock
-      #     key: ${{ matrix.python-version }}-${{ matrix.fast }}-pip-${{ hashFiles('pyproject.toml') }}
+      - name: Cache Install
+        id: restore-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            poetry.lock
+          key: ${{ matrix.python-version }}-${{ matrix.fast }}-pip-${{ hashFiles('pyproject.toml') }}
 
       - name: Install Poetry
         run: pip install poetry
-
-        # uses: snok/install-poetry@v1
-        # with:
-        #   version: latest
-        #   virtualenvs-create: false
 
       - name: Install Fast
         if: ${{ matrix.fast }}
