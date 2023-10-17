@@ -24,6 +24,7 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # THE SOFTWARE.
 import importlib.resources
 import json
+import sys
 from os import environ
 
 from geohash_hilbert import encode
@@ -84,11 +85,16 @@ class GeoPIP(object):
                 data = json.load(f)
             self._source = "<env = " + environ["REVERSE_GEOCODE_DATA"] + " >"
         else:
-            data = json.loads(
-                importlib.resources.files("geopip")
-                .joinpath("globe.geo.json")
-                .read_bytes()
-            )
+            if sys.version_info >= (3, 9):
+                data = json.loads(
+                    importlib.resources.files("geopip")
+                    .joinpath("globe.geo.json")
+                    .read_bytes()
+                )
+            else:
+                data = json.loads(
+                    importlib.resources.read_binary("geopip", "globe.geo.json")
+                )
             self._source = "<package-data>"
 
         if not isinstance(data, dict) or data.get("type") != "FeatureCollection":
