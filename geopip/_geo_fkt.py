@@ -22,7 +22,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 from os.path import commonprefix
 
 from geohash_hilbert import encode
@@ -39,15 +38,15 @@ def bbox(shp):
     Returns:
         Tuple[float, float, float, float]: Bounding box of `shp`: minlng, minlat, maxlng, maxlat
     """
-    if shp.get('bbox'):
-        return shp['bbox']
+    if shp.get("bbox"):
+        return shp["bbox"]
 
-    if shp['type'] == 'Polygon':
-        coords = (p for p in shp['coordinates'][0])
-    elif shp['type'] == 'MultiPolygon':
-        coords = (p for poly in shp['coordinates'] for p in poly[0])
+    if shp["type"] == "Polygon":
+        coords = (p for p in shp["coordinates"][0])
+    elif shp["type"] == "MultiPolygon":
+        coords = (p for poly in shp["coordinates"] for p in poly[0])
     else:
-        raise ValueError('Expect Polygon or MultiPolygon.')
+        raise ValueError("Expect Polygon or MultiPolygon.")
 
     minlng, maxlng, minlat, maxlat = None, None, None, None
 

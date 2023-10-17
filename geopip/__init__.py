@@ -22,19 +22,13 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
-
 from ._geopip import GeoPIP
 
-
-__all__ = [
-    'GeoPIP',
-    'instance',
-    'search',
-    'search_all',
-]
+__all__ = ["GeoPIP", "instance", "search", "search_all"]
 
 _INSTANCE = None
+
+
 def instance():
     """Singleton GeoPIP instance (lazy loading)
 

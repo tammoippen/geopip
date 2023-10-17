@@ -22,21 +22,22 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 import json
-from os import environ
 import sys
+from os import environ
 
-from geohash_hilbert import encode
 import pkg_resources
+from geohash_hilbert import encode
 
 from ._geo_fkt import bbox_hash, in_bbox
 
 try:
-    from ._shapely import prepare, p_in_polygon
+    from ._shapely import p_in_polygon, prepare
+
     SHAPELY_AVAILABLE = True
 except ImportError:
-    from ._pure import prepare, p_in_polygon
+    from ._pure import p_in_polygon, prepare
+
     SHAPELY_AVAILABLE = False
 
 if sys.version_info[0] != 3:
@@ -65,29 +66,31 @@ class GeoPIP(object):
             geojson_dict: Dict[str, Any]  Geojson dictionary. `FeatureCollection` required!
         """
         if filename and geojson_dict:
-            raise ValueError('Only one of `filename` or `geojson_dict` is allowed!')
+            raise ValueError("Only one of `filename` or `geojson_dict` is allowed!")
 
         self._source = None
         data = None
         if filename is not None:
-            with open(filename, 'r', encoding='utf-8') as f:
+            with open(filename, "r", encoding="utf-8") as f:
                 data = json.load(f)
             self._source = filename
         elif geojson_dict is not None:
             data = geojson_dict
-            self._source = '<dict>'
+            self._source = "<dict>"
         else:
             # load default
-            if environ.get('REVERSE_GEOCODE_DATA'):
-                with open(environ['REVERSE_GEOCODE_DATA'], 'r', encoding='utf-8') as f:
+            if environ.get("REVERSE_GEOCODE_DATA"):
+                with open(environ["REVERSE_GEOCODE_DATA"], "r", encoding="utf-8") as f:
                     data = json.load(f)
-                self._source = '<env = ' + environ['REVERSE_GEOCODE_DATA'] + ' >'
+                self._source = "<env = " + environ["REVERSE_GEOCODE_DATA"] + " >"
             else:
-                data = json.loads(pkg_resources.resource_string('geopip', 'globe.geo.json').decode())
-                self._source = '<package-data>'
+                data = json.loads(
+                    pkg_resources.resource_string("geopip", "globe.geo.json").decode()
+                )
+                self._source = "<package-data>"
 
-        if not isinstance(data, dict) or data.get('type') != 'FeatureCollection':
-            raise ValueError('Only `FeatureCollections` are allowed as input!')
+        if not isinstance(data, dict) or data.get("type") != "FeatureCollection":
+            raise ValueError("Only `FeatureCollections` are allowed as input!")
 
         # initialize during init!
         self._shapes = GeoPIP._initialize_shapes(data)
@@ -95,10 +98,10 @@ class GeoPIP(object):
     @staticmethod
     def _initialize_shapes(data):
         shapes = {}  # geohash -> shapes
-        for feat in data['features']:
+        for feat in data["features"]:
             for shp in prepare(feat):
-                key = bbox_hash(shp['bounds'])
-                shp['geohash'] = key
+                key = bbox_hash(shp["bounds"])
+                shp["geohash"] = key
                 if key not in shapes:
                     shapes[key] = []
                 shapes[key].append(shp)
@@ -106,10 +109,8 @@ class GeoPIP(object):
         return shapes
 
     def __str__(self):
-        return 'GeoPIP from {}: {} hashes, {} polygons'.format(
-            self._source,
-            len(self.shapes),
-            sum(len(ps) for ps in self.shapes.values()),
+        return "GeoPIP from {}: {} hashes, {} polygons".format(
+            self._source, len(self.shapes), sum(len(ps) for ps in self.shapes.values())
         )
 
     @property
@@ -132,20 +133,20 @@ class GeoPIP(object):
             Iterator[Dict[Any, Any]]  Iterator for `properties` of found features.
         """
         if not (-180 <= lng <= 180):
-            raise ValueError('Longitude must be between -180 and 180.')
+            raise ValueError("Longitude must be between -180 and 180.")
         if not (-90 <= lat <= 90):
-            raise ValueError('Latitude must be between -90 and 90.')
+            raise ValueError("Latitude must be between -90 and 90.")
 
         key = encode(lng=lng, lat=lat, precision=16, bits_per_char=4)
         for sub_key in [key] + [key[:-i] for i in range(1, len(key) + 1)]:
             # look withing geohash rectangles of increasing resolution
             for shp in self.shapes.get(sub_key, []):
                 # look through all shapes within one resolution
-                if in_bbox((lng, lat), shp['bounds']):
+                if in_bbox((lng, lat), shp["bounds"]):
                     # first check if point in bbox
                     if p_in_polygon((lng, lat), shp):
                         # ensure point is in polygon
-                        yield shp['properties']
+                        yield shp["properties"]
                         # look for other overlaps
 
     def search(self, lng, lat):

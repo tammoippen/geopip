@@ -3,58 +3,51 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from random import random
 
-from geohash_hilbert import decode_exactly
-from geopip._geo_fkt import bbox, bbox_hash, ccw, in_bbox, p_in_polygon, winding_number
 import pytest
+from geohash_hilbert import decode_exactly
 
+from geopip._geo_fkt import bbox, bbox_hash, ccw, in_bbox, p_in_polygon, winding_number
 
 ################################################################################
-################                      bbox                      ##### noqa: E266
+################                      bbox                      ####
 ################################################################################
+
 
 def test_has_member():
-    assert bbox({'bbox': [0, 0, 1, 1]}) == [0, 0, 1, 1]
+    assert bbox({"bbox": [0, 0, 1, 1]}) == [0, 0, 1, 1]
 
 
 def test_no_poly():
-    for type_ in ('Position', 'Point', 'MultiPoint', 'LineString', 'MultiLineString', 'GeometryCollection'):
+    for type_ in (
+        "Position",
+        "Point",
+        "MultiPoint",
+        "LineString",
+        "MultiLineString",
+        "GeometryCollection",
+    ):
         with pytest.raises(ValueError):
-            bbox({'type': type_})
+            bbox({"type": type_})
 
 
 def test_simple_polys(triangle, rect, trapezoid):
-    poly = {
-        'type': 'Polygon',
-        'coordinates': [
-            triangle,
-        ],
-    }
+    poly = {"type": "Polygon", "coordinates": [triangle]}
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = {
-        'type': 'Polygon',
-        'coordinates': [
-            rect,
-        ],
-    }
+    poly = {"type": "Polygon", "coordinates": [rect]}
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = {
-        'type': 'Polygon',
-        'coordinates': [
-            trapezoid,
-        ],
-    }
+    poly = {"type": "Polygon", "coordinates": [trapezoid]}
 
     assert bbox(poly) == (0, -1, 1, 1)
 
 
 def test_polys_ignore_holes(triangle):
     poly = {
-        'type': 'Polygon',
-        'coordinates': [
+        "type": "Polygon",
+        "coordinates": [
             triangle,
             [(0.5, 0.1), (0.75, 0.2), (0.2, 0.2), (0.5, 0.1)],  # valid hole
         ],
@@ -63,8 +56,8 @@ def test_polys_ignore_holes(triangle):
     assert bbox(poly) == (0, 0, 1, 1)
 
     poly = {
-        'type': 'Polygon',
-        'coordinates': [
+        "type": "Polygon",
+        "coordinates": [
             triangle,
             [(1.5, 0.1), (1.75, 0.2), (0.2, -0.2), (1.5, 0.1)],  # invalid hole
         ],
@@ -74,68 +67,46 @@ def test_polys_ignore_holes(triangle):
 
 
 def test_simple_multipolys(triangle, rect, trapezoid):
-    poly = {
-        'type': 'MultiPolygon',
-        'coordinates': [[
-            triangle,
-        ]],
-    }
+    poly = {"type": "MultiPolygon", "coordinates": [[triangle]]}
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = {
-        'type': 'MultiPolygon',
-        'coordinates': [[
-            rect,
-        ]],
-    }
+    poly = {"type": "MultiPolygon", "coordinates": [[rect]]}
 
     assert bbox(poly) == (0, 0, 1, 1)
 
-    poly = {
-        'type': 'MultiPolygon',
-        'coordinates': [[
-            trapezoid,
-        ]],
-    }
+    poly = {"type": "MultiPolygon", "coordinates": [[trapezoid]]}
 
     assert bbox(poly) == (0, -1, 1, 1)
 
 
 def test_many_simple_multipolys(trapezoid, rect, triangle):
-    poly = {
-        'type': 'MultiPolygon',
-        'coordinates': [[
-            triangle,
-        ], [
-            rect,
-        ], [
-            trapezoid,
-        ]],
-    }
+    poly = {"type": "MultiPolygon", "coordinates": [[triangle], [rect], [trapezoid]]}
 
     assert bbox(poly) == (0, -1, 1, 1)
 
 
 def test_multipolys_ignore_holes():
     poly = {
-        'type': 'MultiPolygon',
-        'coordinates': [[
-            [(0, 0), (0.5, 1), (1, 0), (0, 0)],  # triangle
-            [(1.5, 0.1), (1.75, 0.2), (0.2, -0.2), (1.5, 0.1)],  # invalid hole
-        ], [
-            [(0, 0), (0, 1), (1, 1), (1, 0), (0, 0)],  # Rectangle
-            [(0.5, 0.1), (0.75, 0.2), (0.2, 0.2), (0.5, 0.1)],  # valid hole
-        ], [
-            [(0, 0), (0.5, 1), (1, 0), (0.5, -1), (0, 0)],  # trapezoid
-        ]],
+        "type": "MultiPolygon",
+        "coordinates": [
+            [
+                [(0, 0), (0.5, 1), (1, 0), (0, 0)],  # triangle
+                [(1.5, 0.1), (1.75, 0.2), (0.2, -0.2), (1.5, 0.1)],  # invalid hole
+            ],
+            [
+                [(0, 0), (0, 1), (1, 1), (1, 0), (0, 0)],  # Rectangle
+                [(0.5, 0.1), (0.75, 0.2), (0.2, 0.2), (0.5, 0.1)],  # valid hole
+            ],
+            [[(0, 0), (0.5, 1), (1, 0), (0.5, -1), (0, 0)]],  # trapezoid
+        ],
     }
 
     assert bbox(poly) == (0, -1, 1, 1)
 
 
 ################################################################################
-################                     in_bbox                    ##### noqa: E266
+################                     in_bbox                    ####
 ################################################################################
 
 
@@ -163,7 +134,7 @@ def test_in_bbox(rect):
 
 
 ################################################################################
-################                    bbox_hash                   ##### noqa: E266
+################                    bbox_hash                   ####
 ################################################################################
 
 
@@ -190,18 +161,22 @@ def test_bbox_hash(rand_lng, rand_lat):
 
 
 ################################################################################
-################                       ccw                      ##### noqa: E266
+################                       ccw                      ####
 ################################################################################
 
 
 def test_ccw():
     assert 0 == ccw((0, 0), (1, 0), (2, 0))  # line from 0,0 to 2,0
-    assert 0 > ccw((0, 0), (1, 1), (2, 0))  # middle point above / left of line 0,0 to 2,0
-    assert 0 < ccw((0, 0), (1, -1), (2, 0))  # middle point below / right of line 0,0 to 2,0
+    assert 0 > ccw(
+        (0, 0), (1, 1), (2, 0)
+    )  # middle point above / left of line 0,0 to 2,0
+    assert 0 < ccw(
+        (0, 0), (1, -1), (2, 0)
+    )  # middle point below / right of line 0,0 to 2,0
 
 
 ################################################################################
-################                 winding_number                 ##### noqa: E266
+################                 winding_number                 ####
 ################################################################################
 
 
@@ -252,7 +227,7 @@ def test_winding_number_star(star, rand_lat, rand_lng):
     assert winding_number(p, star) == -winding_number(p, star_cw)
 
     # outside
-    box = bbox({'type': 'Polygon', 'coordinates': [star]})
+    box = bbox({"type": "Polygon", "coordinates": [star]})
     for i_ in range(100):
         p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):
@@ -261,7 +236,7 @@ def test_winding_number_star(star, rand_lat, rand_lng):
 
 
 ################################################################################
-################                  p_in_polygon                  ##### noqa: E266
+################                  p_in_polygon                  ####
 ################################################################################
 
 
@@ -323,7 +298,7 @@ def test_p_in_polygon_star(star, rand_lat, rand_lng):
     assert p_in_polygon(p, star_cw)
 
     # outside
-    box = bbox({'type': 'Polygon', 'coordinates': star})
+    box = bbox({"type": "Polygon", "coordinates": star})
     for i_ in range(100):
         p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):

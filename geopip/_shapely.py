@@ -22,7 +22,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 from shapely import speedups
 from shapely.geometry import Point, shape
 from shapely.prepared import prep
@@ -40,13 +39,11 @@ def prepare(feat):
     Returns:
         List[Dict[str, Any]]  Prepared shapes for `geopip._shapely.p_in_polygon()`
     """
-    if feat['geometry']['type'] in ('Polygon', 'MultiPolygon'):
-        shp = shape(feat['geometry'])
-        return [{
-            'shape': prep(shp),
-            'properties': feat['properties'],
-            'bounds': shp.bounds,
-        }]
+    if feat["geometry"]["type"] in ("Polygon", "MultiPolygon"):
+        shp = shape(feat["geometry"])
+        return [
+            {"shape": prep(shp), "properties": feat["properties"], "bounds": shp.bounds}
+        ]
     else:
         return []
 
@@ -63,4 +60,4 @@ def p_in_polygon(p, shp):
     Returns:
         boolean: True, if p in shp, False otherwise
     """
-    return shp['shape'].contains(Point(*p))
+    return shp["shape"].contains(Point(*p))

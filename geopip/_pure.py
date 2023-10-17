@@ -22,7 +22,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
 from ._geo_fkt import bbox
 from ._geo_fkt import p_in_polygon as pure_p_in_polygon
 
@@ -37,25 +36,20 @@ def prepare(feat):
     Returns:
         List[Dict[str, Any]]  Prepared shapes for `geopip._pure.p_in_polygon()`
     """
-    shp = feat['geometry']
+    shp = feat["geometry"]
     res = []
-    if shp['type'] == 'MultiPolygon':
-        for p_coords in shp['coordinates']:
-            polygon = {
-                'type': 'Polygon',
-                'coordinates': p_coords,
-            }
-            res += [{
-                'shape': polygon,
-                'properties': feat['properties'],
-                'bounds': bbox(polygon),
-            }]
-    elif shp['type'] == 'Polygon':
-        res += [{
-            'shape': shp,
-            'properties': feat['properties'],
-            'bounds': bbox(shp),
-        }]
+    if shp["type"] == "MultiPolygon":
+        for p_coords in shp["coordinates"]:
+            polygon = {"type": "Polygon", "coordinates": p_coords}
+            res += [
+                {
+                    "shape": polygon,
+                    "properties": feat["properties"],
+                    "bounds": bbox(polygon),
+                }
+            ]
+    elif shp["type"] == "Polygon":
+        res += [{"shape": shp, "properties": feat["properties"], "bounds": bbox(shp)}]
     return res
 
 
@@ -71,4 +65,4 @@ def p_in_polygon(p, shp):
     Returns:
         boolean: True, if p in shp, False otherwise
     """
-    return pure_p_in_polygon(p, shp['shape']['coordinates'])
+    return pure_p_in_polygon(p, shp["shape"]["coordinates"])
