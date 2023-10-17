@@ -134,12 +134,12 @@ def test_in_bbox(rect):
 
 
 ################################################################################
-################                    bbox_hash                   ####
+################                    bbox_hash                   ################
 ################################################################################
 
 
 def test_bbox_hash(rand_lng, rand_lat):
-    for i_ in range(100):
+    for _i in range(100):
         lng1, lat1 = rand_lng(), rand_lat()
         lng2, lat2 = rand_lng(), rand_lat()
 
@@ -161,7 +161,7 @@ def test_bbox_hash(rand_lng, rand_lat):
 
 
 ################################################################################
-################                       ccw                      ####
+################                       ccw                      ################
 ################################################################################
 
 
@@ -176,7 +176,7 @@ def test_ccw():
 
 
 ################################################################################
-################                 winding_number                 ####
+################                 winding_number                 ################
 ################################################################################
 
 
@@ -184,14 +184,14 @@ def test_winding_number_rect(rect, rand_lat, rand_lng):
     rect_cw = list(reversed(rect))
 
     # inside
-    for i_ in range(100):
+    for _i in range(100):
         p = (random(), random())
         assert 0 != winding_number(p, rect)
         assert 0 != winding_number(p, rect_cw)
         assert winding_number(p, rect) == -winding_number(p, rect_cw)
 
     # outside
-    for i_ in range(100):
+    for _i in range(100):
         p = (rand_lng(), rand_lat())
         if not (0 <= p[0] <= 1 and 0 <= p[1] <= 1):
             assert 0 == winding_number(p, rect)
@@ -202,7 +202,7 @@ def test_winding_number_star(star, rand_lat, rand_lng):
     star_cw = list(reversed(star))
 
     # inside
-    for i_ in range(100):
+    for _i in range(100):
         p = (random() * 0.0697 - 0.0257, random() * 0.0383 - 0.016)  # in center of star
         assert 0 != winding_number(p, star)
         assert 0 != winding_number(p, star_cw)
@@ -228,7 +228,7 @@ def test_winding_number_star(star, rand_lat, rand_lng):
 
     # outside
     box = bbox({"type": "Polygon", "coordinates": [star]})
-    for i_ in range(100):
+    for _i in range(100):
         p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):
             assert 0 == winding_number(p, star)
@@ -236,7 +236,7 @@ def test_winding_number_star(star, rand_lat, rand_lng):
 
 
 ################################################################################
-################                  p_in_polygon                  ####
+################                  p_in_polygon                  ################
 ################################################################################
 
 
@@ -245,13 +245,13 @@ def test_p_in_polygon_rect(rect, rand_lat, rand_lng):
     rect = [rect]
 
     # inside
-    for i_ in range(100):
+    for _i in range(100):
         p = (random(), random())
         assert p_in_polygon(p, rect)
         assert p_in_polygon(p, rect_cw)
 
     # outside
-    for i_ in range(100):
+    for _i in range(100):
         p = (rand_lng(), rand_lat())
         if not (0 <= p[0] <= 1 and 0 <= p[1] <= 1):
             assert not p_in_polygon(p, rect)
@@ -277,7 +277,7 @@ def test_p_in_polygon_star(star, rand_lat, rand_lng):
     star = [star]
 
     # inside
-    for i_ in range(100):
+    for _i in range(100):
         p = (random() * 0.0697 - 0.0257, random() * 0.0383 - 0.016)  # in center of star
         assert p_in_polygon(p, star)
         assert p_in_polygon(p, star_cw)
@@ -299,7 +299,7 @@ def test_p_in_polygon_star(star, rand_lat, rand_lng):
 
     # outside
     box = bbox({"type": "Polygon", "coordinates": star})
-    for i_ in range(100):
+    for _i in range(100):
         p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):
             assert not p_in_polygon(p, star)

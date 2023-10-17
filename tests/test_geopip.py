@@ -2,7 +2,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import json
-import sys
 from os import environ
 
 import pytest
@@ -14,9 +13,6 @@ try:
     import shapely  # noqa: F401
 except ImportError:
     pass
-
-if sys.version_info[0] != 3:
-    from io import open
 
 
 @pytest.fixture()
@@ -225,7 +221,7 @@ def _test_sample_geojson(geo, rand_lng, rand_lat):
         geo.search(lng=-178, lat=-98)
 
     # nothing found
-    for i_ in range(100):
+    for _i in range(100):
         lng, lat = rand_lng(), rand_lat()
         if not (-2 <= lng <= 2 and -2 <= lat <= 2):
             assert geo.search(lng, lat) is None

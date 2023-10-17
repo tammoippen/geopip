@@ -23,7 +23,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 import json
-import sys
 from os import environ
 
 import pkg_resources
@@ -40,8 +39,10 @@ except ImportError:
 
     SHAPELY_AVAILABLE = False
 
-if sys.version_info[0] != 3:
-    from io import open
+_MIN_LNG = -180
+_MAX_LNG = 180
+_MIN_LAT = -90
+_MAX_LAT = 90
 
 
 class GeoPIP(object):
@@ -77,17 +78,16 @@ class GeoPIP(object):
         elif geojson_dict is not None:
             data = geojson_dict
             self._source = "<dict>"
-        else:
+        elif environ.get("REVERSE_GEOCODE_DATA"):
             # load default
-            if environ.get("REVERSE_GEOCODE_DATA"):
-                with open(environ["REVERSE_GEOCODE_DATA"], "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                self._source = "<env = " + environ["REVERSE_GEOCODE_DATA"] + " >"
-            else:
-                data = json.loads(
-                    pkg_resources.resource_string("geopip", "globe.geo.json").decode()
-                )
-                self._source = "<package-data>"
+            with open(environ["REVERSE_GEOCODE_DATA"], "r", encoding="utf-8") as f:
+                data = json.load(f)
+            self._source = "<env = " + environ["REVERSE_GEOCODE_DATA"] + " >"
+        else:
+            data = json.loads(
+                pkg_resources.resource_string("geopip", "globe.geo.json").decode()
+            )
+            self._source = "<package-data>"
 
         if not isinstance(data, dict) or data.get("type") != "FeatureCollection":
             raise ValueError("Only `FeatureCollections` are allowed as input!")
@@ -132,9 +132,9 @@ class GeoPIP(object):
         Returns:
             Iterator[Dict[Any, Any]]  Iterator for `properties` of found features.
         """
-        if not (-180 <= lng <= 180):
+        if not (_MIN_LNG <= lng <= _MAX_LNG):
             raise ValueError("Longitude must be between -180 and 180.")
-        if not (-90 <= lat <= 90):
+        if not (_MIN_LNG <= lat <= _MAX_LAT):
             raise ValueError("Latitude must be between -90 and 90.")
 
         key = encode(lng=lng, lat=lat, precision=16, bits_per_char=4)

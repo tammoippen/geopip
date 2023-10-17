@@ -144,10 +144,9 @@ def winding_number(p, ring):
             if p2[1] > p[1]:
                 if ccw(p1, p2, p) > 0:
                     wn += 1
-        else:
-            if p2[1] <= p[1]:
-                if ccw(p1, p2, p) < 0:
-                    wn -= 1
+        elif p2[1] <= p[1]:
+            if ccw(p1, p2, p) < 0:
+                wn -= 1
     return wn
 
 

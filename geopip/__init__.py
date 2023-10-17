@@ -34,7 +34,7 @@ def instance():
 
     Is used in the `search_all` and `search` functions.
     """
-    global _INSTANCE
+    global _INSTANCE  # noqa: PLW0603
     if _INSTANCE is not None:
         return _INSTANCE
 

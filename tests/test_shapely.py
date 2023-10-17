@@ -18,7 +18,7 @@ except ImportError:
     SHAPELY_ENABLED = False
 
 ################################################################################
-################                     prepare                    ####
+################                     prepare                    ################
 ################################################################################
 
 
@@ -88,7 +88,7 @@ def test_prepare_many_multypolygon(rect, triangle, trapezoid):
 
 
 ################################################################################
-################                  p_in_polygon                  ####
+################                  p_in_polygon                  ################
 ################################################################################
 
 
@@ -101,13 +101,13 @@ def test_p_in_polygon_rect(rect, rand_lat, rand_lng):
     p_rect = prepare({"geometry": rect, "properties": {}})[0]
 
     # inside
-    for i_ in range(100):
+    for _i in range(100):
         p = (random(), random())
         assert p_in_polygon(p, p_rect)
         assert p_in_polygon(p, p_rect_cw)
 
     # outside
-    for i_ in range(100):
+    for _i in range(100):
         p = (rand_lng(), rand_lat())
         if not (0 <= p[0] <= 1 and 0 <= p[1] <= 1):
             assert not p_in_polygon(p, p_rect)
@@ -144,7 +144,7 @@ def test_p_in_polygon_star(star, rand_lat, rand_lng):
     p_star = prepare({"geometry": star, "properties": {}})[0]
 
     # inside
-    for i_ in range(100):
+    for _i in range(100):
         p = (random() * 0.0697 - 0.0257, random() * 0.0383 - 0.016)  # in center of star
         assert p_in_polygon(p, p_star)
         assert p_in_polygon(p, p_star_cw)
@@ -166,7 +166,7 @@ def test_p_in_polygon_star(star, rand_lat, rand_lng):
 
     # outside
     box = p_star["bounds"]
-    for i_ in range(100):
+    for _i in range(100):
         p = (rand_lng(), rand_lat())
         if not in_bbox(p, box):
             assert not p_in_polygon(p, p_star)
