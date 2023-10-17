@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "geopip"
-version = "2.0"
+version = "2.0.0"
 description = "Reverse geocode a lng/lat coordinate within a geojson FeatureCollection."
 authors = ["Tammo Ippen <tammo.ippen@posteo.de>"]
 license = "MIT"
