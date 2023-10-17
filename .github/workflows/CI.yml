@@ -15,6 +15,11 @@ jobs:
       matrix:
         fast: [true, false]
         python-version: [3.7, 3.8, 'pypy-3.9', 3.9, '3.10', 'pypy-3.10', '3.11', '3.12']
+        exclude:
+          - fast: true
+            python-version: 'pypy-3.9'
+          - fast: true
+            python-version: 'pypy-3.10'
     defaults:
       run:
         shell: bash
