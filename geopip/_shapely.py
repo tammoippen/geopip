@@ -22,11 +22,8 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-from shapely import speedups
 from shapely.geometry import Point, shape
 from shapely.prepared import prep
-
-speedups.enable()
 
 
 def prepare(feat):

@@ -2,7 +2,6 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
 import json
-from os import environ
 
 import pytest
 
@@ -170,8 +169,8 @@ def test_file_init(testdir, rand_lng, rand_lat):
     _test_sample_geojson(geo, rand_lng, rand_lat)
 
 
-def test_env_init(testdir, rand_lng, rand_lat):
-    environ["REVERSE_GEOCODE_DATA"] = testdir + "/sample.geo.json"
+def test_env_init(testdir, rand_lng, rand_lat, monkeypatch):
+    monkeypatch.setenv("REVERSE_GEOCODE_DATA", testdir + "/sample.geo.json")
     geo = GeoPIP()
 
     assert "<env = " + testdir + "/sample.geo.json >" in str(geo)

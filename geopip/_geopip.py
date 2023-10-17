@@ -134,7 +134,7 @@ class GeoPIP(object):
         """
         if not (_MIN_LNG <= lng <= _MAX_LNG):
             raise ValueError("Longitude must be between -180 and 180.")
-        if not (_MIN_LNG <= lat <= _MAX_LAT):
+        if not (_MIN_LAT <= lat <= _MAX_LAT):
             raise ValueError("Latitude must be between -90 and 90.")
 
         key = encode(lng=lng, lat=lat, precision=16, bits_per_char=4)
