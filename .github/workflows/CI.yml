@@ -39,8 +39,7 @@ jobs:
       #     key: ${{ matrix.python-version }}-${{ matrix.fast }}-pip-${{ hashFiles('pyproject.toml') }}
 
       - name: Install Poetry
-        run:
-          - pip install poetry
+        run: pip install poetry
 
         # uses: snok/install-poetry@v1
         # with:
@@ -51,7 +50,7 @@ jobs:
         if: ${{ matrix.fast }}
         run: poetry install -E fast
 
-      - name: Install Fast
+      - name: Install
         if: ${{ ! matrix.fast }}
         run: poetry install
 
