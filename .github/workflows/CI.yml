@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "master"
+  pull_request:
+    branches:
+      - "master"
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        fast: [true, false]
+        python-version: [3.7, 3.8, 'pypy-3.9', 3.9, '3.10', 'pypy-3.10', '3.11', '3.12']
+        exclude:
+          - fast: true
+            python-version: 'pypy-3.9'
+          - fast: true
+            python-version: 'pypy-3.10'
+    defaults:
+      run:
+        shell: bash
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set Up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache Install
+        id: restore-cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pip
+            poetry.lock
+          key: ${{ matrix.python-version }}-${{ matrix.fast }}-pip-${{ hashFiles('pyproject.toml') }}
+
+      - name: Install Poetry
+        run: pip install poetry
+
+      - name: Install Fast
+        if: ${{ matrix.fast }}
+        run: poetry install -E fast
+
+      - name: Install
+        if: ${{ ! matrix.fast }}
+        run: poetry install
+
+      - name: Style
+        run: make check
+
+      - name: Tests
+        run: make test
+
+      - uses: codecov/codecov-action@v3
+        with:
+          flags: unittests
+          name: coverage
+          verbose: true

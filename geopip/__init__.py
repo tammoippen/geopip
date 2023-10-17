@@ -22,25 +22,19 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-
-
 from ._geopip import GeoPIP
 
-
-__all__ = [
-    'GeoPIP',
-    'instance',
-    'search',
-    'search_all',
-]
+__all__ = ["GeoPIP", "instance", "search", "search_all"]
 
 _INSTANCE = None
-def instance():  # noqa: E302
-    """Singleton GeoPIP instance (lasy loading)
+
+
+def instance():
+    """Singleton GeoPIP instance (lazy loading)
 
     Is used in the `search_all` and `search` functions.
     """
-    global _INSTANCE
+    global _INSTANCE  # noqa: PLW0603
     if _INSTANCE is not None:
         return _INSTANCE
 
@@ -53,9 +47,9 @@ def search_all(lng, lat):
     """Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
 
     Look within the features from the `instance().shapes` function for all polygon that
-    contains the point (lng, lat). From all found feature the `porperties`
+    contains the point (lng, lat). From all found feature the `properties`
     will be returned (more or less sorted from smallest to largest feature).
-    `None`, if no feature containes the point.
+    `None`, if no feature contains the point.
 
     Parameters:
         lng: float  Longitude (-180, 180) of point. (WGS84)
@@ -71,8 +65,8 @@ def search(lng, lat):
     """Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
 
     Look within the features from the `instance().shapes` function for a polygon that
-    contains the point (lng, lat). From the first found feature the `porperties`
-    will be returned. `None`, if no feature containes the point.
+    contains the point (lng, lat). From the first found feature the `properties`
+    will be returned. `None`, if no feature contains the point.
 
     Parameters:
         lng: float  Longitude (-180, 180) of point. (WGS84)
