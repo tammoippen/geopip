@@ -22,10 +22,10 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+import importlib.resources
 import json
 from os import environ
 
-import pkg_resources
 from geohash_hilbert import encode
 
 from ._geo_fkt import bbox_hash, in_bbox
@@ -85,7 +85,9 @@ class GeoPIP(object):
             self._source = "<env = " + environ["REVERSE_GEOCODE_DATA"] + " >"
         else:
             data = json.loads(
-                pkg_resources.resource_string("geopip", "globe.geo.json").decode()
+                importlib.resources.files("geopip")
+                .joinpath("globe.geo.json")
+                .read_bytes()
             )
             self._source = "<package-data>"
 
