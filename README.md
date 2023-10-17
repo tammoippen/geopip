@@ -4,7 +4,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/tammoippen/geopip/badge.svg?branch=master)](https://coveralls.io/github/tammoippen/geopip?branch=master)
 [![Tested CPython Versions](https://img.shields.io/badge/cpython-3.7%2C%203.8%2C%203.9%2C%203.10%2C%203.11%2C%203.12-brightgreen.svg)](https://img.shields.io/badge/cpython-3.7%2C%203.8%2C%203.9%2C%203.10%2C%203.11%2C%203.12-brightgreen.svg)
-[![Tested PyPy Versions](https://img.shields.io/badge/pypy-2.7--5.8.0%2C%203.5--5.8.0-brightgreen.svg)](https://img.shields.io/badge/pypy-2.7--5.8.0%2C%203.5--5.8.0-brightgreen.svg)
+[![Tested PyPy Versions](https://img.shields.io/badge/pypy-3.9%2C%203.10-brightgreen.svg)](https://img.shields.io/badge/pypy-3.9%2C%203.10-brightgreen.svg)
 [![PyPi version](https://img.shields.io/pypi/v/geopip.svg)](https://pypi.python.org/pypi/geopip)
 [![PyPi license](https://img.shields.io/pypi/l/geopip.svg)](https://pypi.python.org/pypi/geopip)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
