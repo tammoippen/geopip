@@ -6,6 +6,9 @@ data/
 .cache/
 .coverage
 dist/
+coverage.xml
+.pytest_cache/
+.ruff_cache/
 
 README.rst
 

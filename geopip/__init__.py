@@ -35,8 +35,8 @@ __all__ = [
 ]
 
 _INSTANCE = None
-def instance():  # noqa: E302
-    """Singleton GeoPIP instance (lasy loading)
+def instance():
+    """Singleton GeoPIP instance (lazy loading)
 
     Is used in the `search_all` and `search` functions.
     """
@@ -53,9 +53,9 @@ def search_all(lng, lat):
     """Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
 
     Look within the features from the `instance().shapes` function for all polygon that
-    contains the point (lng, lat). From all found feature the `porperties`
+    contains the point (lng, lat). From all found feature the `properties`
     will be returned (more or less sorted from smallest to largest feature).
-    `None`, if no feature containes the point.
+    `None`, if no feature contains the point.
 
     Parameters:
         lng: float  Longitude (-180, 180) of point. (WGS84)
@@ -71,8 +71,8 @@ def search(lng, lat):
     """Reverse geocode lng/lat coordinate within the features from `instance().shapes`.
 
     Look within the features from the `instance().shapes` function for a polygon that
-    contains the point (lng, lat). From the first found feature the `porperties`
-    will be returned. `None`, if no feature containes the point.
+    contains the point (lng, lat). From the first found feature the `properties`
+    will be returned. `None`, if no feature contains the point.
 
     Parameters:
         lng: float  Longitude (-180, 180) of point. (WGS84)
