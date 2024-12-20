@@ -2,12 +2,11 @@
 
 [![CI](https://github.com/tammoippen/geopip/actions/workflows/CI.yml/badge.svg)](https://github.com/tammoippen/geopip/actions/workflows/CI.yml)
 [![Coverage Status](https://coveralls.io/repos/github/tammoippen/geopip/badge.svg?branch=master)](https://coveralls.io/github/tammoippen/geopip?branch=master)
-[![Tested CPython Versions](https://img.shields.io/badge/cpython-3.7%2C%203.8%2C%203.9%2C%203.10%2C%203.11%2C%203.12-brightgreen.svg)](https://img.shields.io/badge/cpython-3.7%2C%203.8%2C%203.9%2C%203.10%2C%203.11%2C%203.12-brightgreen.svg)
-[![Tested PyPy Versions](https://img.shields.io/badge/pypy-3.9%2C%203.10-brightgreen.svg)](https://img.shields.io/badge/pypy-3.9%2C%203.10-brightgreen.svg)
+[![Tested CPython Versions](https://img.shields.io/badge/cpython-3.9%2C%203.10%2C%203.11%2C%203.12%2C%203.13-brightgreen.svg)](https://img.shields.io/badge/cpython-3.9%2C%203.10%2C%203.11%2C%203.12%2C%203.13-brightgreen.svg)
+[![Tested PyPy Versions](https://img.shields.io/badge/pypy-3.9%2C%203.10-brightgreen.svg)](https://img.shields.io/badge/pypy-3.9%2C%203.10%2C%203.10-brightgreen.svg)
 [![PyPi version](https://img.shields.io/pypi/v/geopip.svg)](https://pypi.python.org/pypi/geopip)
 [![PyPi license](https://img.shields.io/pypi/l/geopip.svg)](https://pypi.python.org/pypi/geopip)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Reverse geocode a lng/lat coordinate within a geojson `FeatureCollection` and return information about the containing country (polygon).
 

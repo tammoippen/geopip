@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         fast: [true, false]
-        python-version: [3.7, 3.8, 'pypy-3.9', 3.9, '3.10', 'pypy-3.10', '3.11', '3.12']
+        python-version: ['pypy-3.9', 3.9, '3.10', 'pypy-3.10', '3.11', '3.12', '3.13']
         exclude:
           - fast: true
             python-version: 'pypy-3.9'
@@ -30,13 +30,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set Up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache Install
         id: restore-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cache/pip
@@ -44,7 +44,10 @@ jobs:
           key: ${{ matrix.python-version }}-${{ matrix.fast }}-pip-${{ hashFiles('pyproject.toml') }}
 
       - name: Install Poetry
-        run: pip install poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: '1.8.3'  # ${{ startsWith(matrix.python-version, 'pypy') && '1.2.2' || '1.8.3' }}
+          virtualenvs-create: false
 
       - name: Install Fast
         if: ${{ matrix.fast }}
@@ -60,7 +63,7 @@ jobs:
       - name: Tests
         run: make test
 
-      - uses: codecov/codecov-action@v3
+      - uses: codecov/codecov-action@v4
         with:
           flags: unittests
           name: coverage
